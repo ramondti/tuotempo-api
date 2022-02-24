@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "dontenv/config";
 import knex from "knex";
 import Oracle from "oracledb";
 
