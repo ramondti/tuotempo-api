@@ -1,0 +1,21 @@
+import knex from "knex";
+import Oracle from "oracledb";
+
+Oracle.initOracleClient({ libDir: process.env.ORACLE_DIR });
+
+const db = knex({
+  
+  client: "oracledb",
+  connection: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB,
+  },
+  pool: {
+    min: 1,
+    max: 5,
+  },
+});
+
+export default db;

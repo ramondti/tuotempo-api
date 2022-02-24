@@ -1,0 +1,22 @@
+{
+  "name": "api_tuotempo",
+  "version": "1.0.0",
+  "description": "Api busca dados hospital portgues",
+  "main": "./index.js",
+  "scripts": {
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "start": "nodemon src/index.js"
+  },
+  "author": "Ramon Mattjie",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^16.0.0",
+    "gitlab": "^14.2.2",
+    "jsonpath": "^1.1.1",
+    "knex": "^0.95.14",
+    "oracledb": "5.3",
+    "sucrase": "^3.20.3",
+    "xpress": "^2.4.6"
+  }
+}
