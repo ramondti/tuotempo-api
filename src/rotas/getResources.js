@@ -44,6 +44,7 @@ export async function get_resources() {
 
     return { result: 'OK', return: dados };
   } catch (error) {
+    console.log(error)
     return {
       result: 'ERROR',
       debug_msg: 'Erro ao consultar o banco de dados!'
