@@ -15,6 +15,7 @@
     "gitlab": "^14.2.2",
     "jsonpath": "^1.1.1",
     "knex": "^0.95.14",
+    "nodemon": "^2.0.15",
     "oracledb": "5.3",
     "sucrase": "^3.20.3",
     "xpress": "^2.4.6"
