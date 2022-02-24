@@ -1,3 +1,4 @@
+import "dotenv/config";
 import knex from "knex";
 import Oracle from "oracledb";
 
