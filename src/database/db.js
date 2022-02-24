@@ -1,4 +1,4 @@
-import "dontenv/config";
+import "dotenv/config";
 import knex from "knex";
 import Oracle from "oracledb";
 
@@ -8,10 +8,10 @@ const db = knex({
   
   client: "oracledb",
   connection: {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB,
+    host: "10.0.38.7",
+    user: "tuotempo",
+    password: "jmz6hr",
+    database: "sml",
   },
   pool: {
     min: 1,
