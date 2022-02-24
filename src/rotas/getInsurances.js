@@ -1,21 +1,21 @@
 import knex from '../database/db';
 
-
-
-
-export async function get_insurances(){
-  const result = await knex.raw(`
+export async function get_insurances() {
+  try {
+    const result = await knex.raw(`
   SELECT 
   cd_convenio, 
   nm_convenio
  FROM dbamv.convenio 
  WHERE sn_ativo = 'S'
  order by 1 asc
-`
-);
+`);
 
     if (!result || result.length === 0) {
-      return (`Não encontrou nenhum registro no banco`)
+      return {
+        result: 'ERROR',
+        debug_msg: 'Não encontrado registro no banco de dados',
+      };
     }
 
     const dados = [];
@@ -25,11 +25,14 @@ export async function get_insurances(){
         name: element.NM_CONVENIO,
       });
     });
-  
-  
-    return {result: "OK", return: (dados)};
-  };
 
-
+    return { result: 'OK', return: dados };
+  } catch (error) {
+    return {
+      result: 'ERROR',
+      debug_msg: 'Erro ao consultar o banco de dados!'
+    };
+  }
+}
 
 export { get_insurances };
