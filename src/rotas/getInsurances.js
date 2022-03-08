@@ -3,12 +3,13 @@ import knex from '../database/db';
 export async function get_insurances() {
   try {
     const result = await knex.raw(`
-  SELECT 
-  cd_convenio, 
-  nm_convenio
- FROM dbamv.convenio 
- WHERE sn_ativo = 'S'
- order by 1 asc
+    SELECT 
+    convenio.nm_convenio || ' - ' || con_pla.ds_con_pla nm_convenio  
+    FROM dbamv.convenio
+    LEFT JOIN con_pla ON con_pla.cd_convenio = convenio.cd_convenio  
+    WHERE convenio.sn_ativo = 'S'
+    order by 1 ASC    
+    
 `);
 
     if (!result || result.length === 0) {
@@ -21,7 +22,7 @@ export async function get_insurances() {
     const dados = [];
     result.forEach(element => {
       dados.push({
-        location_lid: element.CD_CONVENIO,
+        insurance_lid: element.CD_CONVENIO,
         name: element.NM_CONVENIO,
       });
     });
