@@ -8,10 +8,10 @@ const db = knex({
   
   client: "oracledb",
   connection: {
-    host: "10.0.38.7",
+    host:"10.0.38.7",
     user: "tuotempo",
-    password: "jmz6hr",
-    database: "sml",
+    password:"jmz6hr",
+    database:"sml",
   },
   pool: {
     min: 1,
