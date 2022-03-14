@@ -67,7 +67,8 @@ export async function get_resources_location_lid(location_lid) {
     PRESTADOR.nr_documento
     FROM DBAMV.AGENDA_CENTRAL
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = DBAMV.AGENDA_CENTRAL.cd_prestador
-    WHERE AGENDA_CENTRAL.cd_unidade_atendimento = ${location_lid} 
+    WHERE AGENDA_CENTRAL.cd_unidade_atendimento = ${location_lid}
+    AND AGENDA_CENTRAL.cd_prestador IS NOT NULL
   `);
 
     if (!result || result.length === 0) {
@@ -122,7 +123,8 @@ export async function get_resources_insurance_lid(insurance_lid) {
     LEFT JOIN DBAMV.ATENDIME ON ATENDIME.cd_prestador = DBAMV.PRESTADOR.cd_prestador
     LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = DBAMV.ATENDIME.cd_convenio
     WHERE CONVENIO.cd_convenio = ${insurance_lid}
-
+    AND AGENDA_CENTRAL.cd_prestador IS NOT NULL
+  
 
   `);
 

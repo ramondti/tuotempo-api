@@ -24,11 +24,11 @@ export async function get_activities() {
     const dados = [];
     result.forEach(element => {
       dados.push({
-        activity_lid: element.CD_RECURSO_CENTRAL,
-        name: element.DS_RECURSO_CENTRAL,
+        activity_lid: element.CD_ITEM_AGENDAMENTO,
+        name: element.DS_ITEM_AGENDAMENTO,
         group: {
-          group_lid: element.CD_ITEM_AGENDAMENTO,
-          name: element.DS_ITEM_AGENDAMENTO,
+          group_lid: element.CD_RECURSO_CENTRAL,
+          name: element.DS_RECURSO_CENTRAL
         },
       });
     });
@@ -70,11 +70,11 @@ export async function get_activities_resource_lid(resource_lid) {
     const dados = [];
     result.forEach(element => {
       dados.push({
-        activity_lid: element.CD_RECURSO_CENTRAL,
-        name: element.DS_RECURSO_CENTRAL,
+        activity_lid: element.CD_ITEM_AGENDAMENTO,
+        name: element.DS_ITEM_AGENDAMENTO,
         group: {
-          group_lid: element.CD_ITEM_AGENDAMENTO,
-          name: element.DS_ITEM_AGENDAMENTO,
+          group_lid: element.CD_RECURSO_CENTRAL,
+          name: element.DS_RECURSO_CENTRAL
         },
       });
     });
@@ -116,11 +116,11 @@ export async function get_activities_resource_lid_location_lid(location_lid,reso
     const dados = [];
     result.forEach(element => {
       dados.push({
-        activity_lid: element.CD_RECURSO_CENTRAL,
-        name: element.DS_RECURSO_CENTRAL,
+        activity_lid: element.CD_ITEM_AGENDAMENTO,
+        name: element.DS_ITEM_AGENDAMENTO,
         group: {
-          group_lid: element.CD_ITEM_AGENDAMENTO,
-          name: element.DS_ITEM_AGENDAMENTO,
+          group_lid: element.CD_RECURSO_CENTRAL,
+          name: element.DS_RECURSO_CENTRAL
         },
       });
     });
@@ -164,11 +164,11 @@ export async function get_activities_insurance_lid(insurance_lid) {
     const dados = [];
     result.forEach(element => {
       dados.push({
-        activity_lid: element.CD_RECURSO_CENTRAL,
-        name: element.DS_RECURSO_CENTRAL,
+        activity_lid: element.CD_ITEM_AGENDAMENTO,
+        name: element.DS_ITEM_AGENDAMENTO,
         group: {
-          group_lid: element.CD_ITEM_AGENDAMENTO,
-          name: element.DS_ITEM_AGENDAMENTO,
+          group_lid: element.CD_RECURSO_CENTRAL,
+          name: element.DS_RECURSO_CENTRAL
         },
       });
     });

@@ -4,12 +4,12 @@ export async function get_insurances() {
   try {
     const result = await knex.raw(`
     SELECT
-    convenio.cd_convenio,
+    convenio.cd_convenio || '-' || con_pla.cd_con_pla cd_convenio,
     convenio.nm_convenio || ' - ' || con_pla.ds_con_pla nm_convenio  
     FROM dbamv.convenio
     LEFT JOIN con_pla ON con_pla.cd_convenio = convenio.cd_convenio  
     WHERE convenio.sn_ativo = 'S'
-    order by 1 ASC     
+    order by 1 ASC; 
 `);
 
     if (!result || result.length === 0) {
