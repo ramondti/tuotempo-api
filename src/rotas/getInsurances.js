@@ -9,7 +9,7 @@ export async function get_insurances() {
     FROM dbamv.convenio
     LEFT JOIN con_pla ON con_pla.cd_convenio = convenio.cd_convenio  
     WHERE convenio.sn_ativo = 'S'
-    order by 1 ASC; 
+    order by 1 ASC 
 `);
 
     if (!result || result.length === 0) {
