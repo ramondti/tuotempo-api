@@ -10,8 +10,8 @@ import { get_activities } from "./rotas/getActivities";
 import { get_activities_resource_lid } from "./rotas/getActivities";
 import { get_activities_resource_lid_location_lid } from "./rotas/getActivities";
 import { get_activities_insurance_lid } from "./rotas/getActivities";
-
-
+import { get_availabilities } from "./rotas/Availabilities";
+import { get_availabilities_first } from "./rotas/Availabilities";
 const app = express();
 
 app.use(express.json({ limit: '50mb' }))
@@ -66,6 +66,17 @@ app.get("/insurances/:insurance_lid/activities",async (req, res) => {
   const json = await get_activities_insurance_lid(req.params.insurance_lid);
   return res.json(json);
 });
+
+app.get("/availabilities/:activity_lid",async (req, res) => {
+  const json = await get_availabilities(req.params.activity_lid);
+  return res.json(json);
+});
+
+app.get("/availabilities/:activity_lid/first",async (req, res) => {
+  const json = await get_availabilities_first(req.params.activity_lid);
+  return res.json(json);
+});
+
 
 
 app.listen(8283, (err, data) => {
