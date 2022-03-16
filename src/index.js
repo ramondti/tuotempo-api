@@ -63,8 +63,8 @@ app.get("/locations/:location_lid/resources/:resource_lid/activities",async (req
 
 
 app.get("/insurances/:insurance_lid/activities",async (req, res) => {
-  //const json = await get_activities_insurance_lid(req.params.insurance_lid);
-  return res.json('Ajustando');
+  const json = await get_activities_insurance_lid(req.params.insurance_lid);
+  return res.json(json);
 });
 
 app.get("/availabilities/:activity_lid&:start_day&:end_day&:start_time&:end_time&:insurance_lid&:resource_lids&:location_lids",async (req, res) => {
