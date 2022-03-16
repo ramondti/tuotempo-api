@@ -24,6 +24,13 @@ export async function get_insurances() {
       dados.push({
         insurance_lid: element.CD_CONVENIO,
         name: element.NM_CONVENIO,
+        patient_notice: {
+          text: null,
+          show: 'true'
+        },
+        preparation: null,
+        web_enabled: 'true',
+        active: 'true'
       });
     });
 

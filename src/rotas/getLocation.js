@@ -34,7 +34,18 @@ export async function get_location() {
           street_number: element.NR_ENDERECO,
           street: element.DS_ENDERECO,
           zipcode: element.NR_CEP,
+          city: null,
+          province: null,
+          region: null,
+          country: null
         },
+        contact: {
+          phone: null,
+          email: null
+        },
+        notice: null,
+        web_enabled: 'true',
+        active: 'true'
       });
     });
 
@@ -83,7 +94,18 @@ export async function get_location_id(location_lid) {
           street_number: element.NR_ENDERECO,
           street: element.DS_ENDERECO,
           zipcode: element.NR_CEP,
+          city: null,
+          province: null,
+          region: null,
+          country: null
         },
+        contact: {
+          phone: null,
+          email: null
+        },
+        notice: null,
+        web_enabled: 'true',
+        active: 'true'
       });
     });
 
