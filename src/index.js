@@ -67,14 +67,17 @@ app.get("/insurances/:insurance_lid/activities",async (req, res) => {
   return res.json(json);
 });
 
-app.get("/availabilities/:activity_lid&:start_day&:end_day&:start_time&:end_time&:insurance_lid&:resource_lids&:location_lids",async (req, res) => {
-  //const json = await get_availabilities(req.params.activity_lid);
-  return res.json('Ajustando');
+
+app.get("/availabilities/:activity_lid",async (req, res) => {
+  const {start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids} = req.query;
+  const json = await get_availabilities(req.params.activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids);
+  return res.json(json);
 });
 
 app.get("/availabilities/:activity_lid/first",async (req, res) => {
-  //const json = await get_availabilities_first(req.params.activity_lid);
-  return res.json('Ajustando');
+  const {start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids} = req.query;
+  const json = await get_availabilities_first(req.params.activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids);
+  return res.json(json);
 });
 
 
