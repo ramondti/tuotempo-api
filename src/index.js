@@ -10,8 +10,10 @@ import { get_activities } from "./rotas/getActivities";
 import { get_activities_resource_lid } from "./rotas/getActivities";
 import { get_activities_resource_lid_location_lid } from "./rotas/getActivities";
 import { get_activities_insurance_lid } from "./rotas/getActivities";
-import { get_availabilities } from "./rotas/Availabilities";
-import { get_availabilities_first } from "./rotas/Availabilities";
+import { get_availabilities } from "./rotas/Availabilities/Availabilities";
+import { get_availabilities_first } from "./rotas/Availabilities/Availabilities";
+import { post_appointments } from "./rotas/Appointments/PostAppointments";
+import { del_appointments } from "./rotas/Appointments/DellAppointments";
 const app = express();
 
 app.use(express.json({ limit: '50mb' }))
@@ -81,9 +83,22 @@ app.get("/availabilities/:activity_lid/first",async (req, res) => {
 });
 
 
+// app.post("/appointments",async (req, res) => {
+//   const {availability,user,notes,tags,referral_doctor,communication} = req.body;
+//   const json = await post_appointments(availability,user,notes,tags,referral_doctor,communication);
+//   //console.log(user)
+//   return res.json(json);
+// });
 
-app.listen(8283, (err, data) => {
-  console.log("Ouvindo na porta 8283");
+
+// app.delete("/appointments/:app_lid",async (req, res) => {
+//   const json = await del_appointments(req.params.app_lid);
+//   return res.json(json);
+// });
+
+
+app.listen(8282, (err, data) => {
+  console.log("Ouvindo na porta 8282");
 });
 
 export default app;

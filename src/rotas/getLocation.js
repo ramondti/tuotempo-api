@@ -16,12 +16,12 @@ export async function get_location() {
   FROM dbamv.agenda_central
   LEFT JOIN dbamv.multi_empresas ON multi_empresas.cd_multi_empresa= agenda_central.cd_multi_empresa
   LEFT JOIN dbamv.unidade_atendimento ON unidade_atendimento.cd_unidade_atendimento= agenda_central.cd_unidade_atendimento
-  LEFT JOIN dbamv.cidade ON cidade.cd_cidade= multi_empresas.cd_cidade`);
+  LEFT JOIN dbamv.cidade ON cidade.cd_cidade= multi_empresas.cd_cidade
+  WHERE agenda_central.CD_UNIDADE_ATENDIMENTO IS NOT NULL`);
 
     if (!result || result.length === 0) {
       return {
-        result: 'ERROR',
-        debug_msg: 'Não encontrado registro no banco de dados',
+        result: 'OK'
       };
     }
 
@@ -76,12 +76,12 @@ export async function get_location_id(location_lid) {
   LEFT JOIN dbamv.multi_empresas ON multi_empresas.cd_multi_empresa= agenda_central.cd_multi_empresa
   LEFT JOIN dbamv.unidade_atendimento ON unidade_atendimento.cd_unidade_atendimento= agenda_central.cd_unidade_atendimento
   LEFT JOIN dbamv.cidade ON cidade.cd_cidade= multi_empresas.cd_cidade
-  where agenda_central.cd_unidade_atendimento = ${location_lid} `);
+  WHERE agenda_central.cd_unidade_atendimento = ${location_lid} 
+  AND agenda_central.CD_UNIDADE_ATENDIMENTO IS NOT NULL`);
 
     if (!result || result.length === 0) {
       return {
-        result: 'ERROR',
-        debug_msg: 'Não encontrado registro no banco de dados',
+        result: 'OK'
       };
     }
 

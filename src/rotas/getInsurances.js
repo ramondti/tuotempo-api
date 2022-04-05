@@ -14,8 +14,7 @@ export async function get_insurances() {
 
     if (!result || result.length === 0) {
       return {
-        result: 'ERROR',
-        debug_msg: 'Não encontrado registro no banco de dados',
+        result: 'OK'
       };
     }
 
