@@ -97,8 +97,8 @@ app.get("/availabilities/:activity_lid/first",async (req, res) => {
 // });
 
 
-app.listen(8282, (err, data) => {
-  console.log("Ouvindo na porta 8282");
+app.listen(8283, (err, data) => {
+  console.log("Ouvindo na porta 8283");
 });
 
 export default app;
