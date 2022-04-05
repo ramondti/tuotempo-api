@@ -4,8 +4,6 @@ export async function get_activities() {
   try {
     const result = await knex.raw(`
     SELECT DISTINCT
-      recurso_central.cd_recurso_central,
-      recurso_central.ds_recurso_central,
       item_agendamento.cd_item_agendamento,
       item_agendamento.ds_item_agendamento,
       item_agendamento.cd_exa_rx,
