@@ -38,22 +38,27 @@ export async function post_appointments(availability,user,notes,tags,referral_do
   
 
     const verifica = await knex.raw(`
-    SELECT cd_paciente
+    SELECT *
      FROM dataintegra.tbl_dti_paciente
     WHERE cd_paciente_integra = ${user.user_lid}
     and cd_paciente is not null
     and tp_status = 'T'
     `);
+
     var seq_agenda;
+
     var user_lid_existe = null ;
 
 
     if (!verifica || verifica.length !== 0) {
 
       user_lid_existe = "USER_LID Já existe";
+
       const seq_paciente = verifica[0].CD_DTI_PACIENTE;
 
+      console.log(verifica[0].CD_DTI_PACIENTE);
 
+      
       seq_agenda = await knex.raw(`select dataintegra.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`);
       await knex.raw(`
       INSERT INTO dataintegra.tbl_dti_agenda (
@@ -94,23 +99,37 @@ export async function post_appointments(availability,user,notes,tags,referral_do
       )
       `);
 
-      const result_func_agenda = await knex.raw(
-        "BEGIN :ret := dataintegra.fnc_dti_controla_agendamento; END;",
-        {
-          ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 40 }
-        }
+      await knex.raw(
+        `
+        DECLARE
+          P_RESULT VARCHAR2(30);
+        BEGIN
+        dbamv.pkg_mv2000.atribui_empresa(1);
+        P_RESULT := dataintegra.fnc_dti_controla_agendamento;
+        END;
+        `
       );
       
-      if (result_func_agenda[0] !== '0') { 
+
+      const verifica_agenda = await knex.raw(`
+      SELECT *
+       FROM dataintegra.tbl_dti_agenda
+      WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
+      and tp_status = 'T'
+      `);
+
+
+      
+      if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
-          debug_msg: 'Não foi possivel agendar o horario!',
+          debug_msg: 'Não foi possivel Registrar o paciente!',
         };
       }
 
     }
+
     else {
-      console.log('Entrou no ELSE')
 
       user_lid_existe = user.user_lid;
       const seq_paciente = await knex.raw(`select dataintegra.seq_dti_paciente.nextval seq_dti from dual`);
@@ -123,6 +142,7 @@ export async function post_appointments(availability,user,notes,tags,referral_do
         tp_registro,  
         tp_movimento,
         cd_multi_empresa,
+        cd_registro_principal,
         cd_registro_pai,
         nm_pessoa,
         nm_sobrenome,
@@ -146,6 +166,7 @@ export async function post_appointments(availability,user,notes,tags,referral_do
         'I',
         1,
         '${seq_paciente[0].SEQ_DTI}',
+        '${seq_paciente[0].SEQ_DTI}',
         '${user.first_name}',
         '${user.second_name}',
         '${user.birthdate}',
@@ -161,29 +182,40 @@ export async function post_appointments(availability,user,notes,tags,referral_do
       )
       `);
 
-      const result_func_paciente = await knex.raw(
+      await knex.raw(
         `
-         BEGIN
-           :ret := dataintegra.fnc_dti_controla_cad_paciente;
-         END; 
-         `,
-        {
-          ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 40 }
-        }
+        DECLARE
+          P_RESULT VARCHAR2(30);
+        
+        BEGIN 
+        dbamv.pkg_mv2000.atribui_empresa(1);
+        P_RESULT := dataintegra.fnc_dti_controla_cad_paciente;
+        END;
+        `
       );
 
-      if (result_func_paciente[0] !== '0') { 
+      const verifica_paci = await knex.raw(`
+      SELECT *
+       FROM dataintegra.tbl_dti_agenda
+      WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
+      and tp_status = 'T'
+      `);
+
+      if (!verifica_paci || verifica_paci.length === 0) {
         return {
           result: 'ERRO',
-          debug_msg: 'Não foi possivel cadastrar o paciente!',
+          debug_msg: 'Não foi possivel Registrar o paciente!',
         };
       }
 
 
 
 
+      
       seq_agenda = await knex.raw(`select dataintegra.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`);
-      const insert_agenda = await knex.raw(`
+    
+
+      await knex.raw(`
       INSERT INTO dataintegra.tbl_dti_agenda (
         cd_dti_agenda,
         tp_status,   
@@ -210,7 +242,7 @@ export async function post_appointments(availability,user,notes,tags,referral_do
         '003',
         'I',
         1,
-        ${seq_paciente[0].SEQ_DTI},
+         ${seq_paciente[0].SEQ_DTI},
         '${availability.availability_lid}',
         '${availability.location_lid}',
         '${availability.resource_lid}',
@@ -223,21 +255,31 @@ export async function post_appointments(availability,user,notes,tags,referral_do
   
       `);
 
-      const result_func_agenda = await knex.raw(
+      await knex.raw(
         `
-         BEGIN
-           :ret := dataintegra.fnc_dti_controla_agendamento;
-         END; 
-         `,
-        {
-          ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 40 }
-        }
+        DECLARE
+          P_RESULT VARCHAR2(30);
+        BEGIN 
+        dbamv.pkg_mv2000.atribui_empresa(1);
+        P_RESULT := dataintegra.fnc_dti_controla_agendamento;
+        END;
+        `
       );
+      
 
-      if (result_func_agenda[0] !== '0') { 
+      const verifica_agenda = await knex.raw(`
+      SELECT *
+       FROM dataintegra.tbl_dti_agenda
+      WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
+      and tp_status = 'T'
+      `);
+
+
+      
+      if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
-          debug_msg: 'Não foi possivel agendar o horario!',
+          debug_msg: 'Não foi possivel Registrar o paciente!',
         };
       }
     }

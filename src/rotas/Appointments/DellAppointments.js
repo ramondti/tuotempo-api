@@ -34,24 +34,35 @@ export async function del_appointments(app_lid) {
     WHERE cd_dti_agenda = ${app_lid} 
       `);
 
-      const result_func_agenda = await knex.raw(
-        `
-         BEGIN
-           :ret := dataintegra.fnc_dti_controla_agendamento;
-         END; 
-         `,
-        {
-          ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 40 }
-        }
-      );
 
-      if (result_func_agenda[0] !== '0') { 
+      await knex.raw(
+        `
+        DECLARE
+          P_RESULT VARCHAR2(30);
+        BEGIN
+        dbamv.pkg_mv2000.atribui_empresa(1);
+        P_RESULT := dataintegra.fnc_dti_controla_agendamento;
+        END;
+        `
+      );
+      
+
+      const verifica_agenda = await knex.raw(`
+      SELECT *
+       FROM dataintegra.tbl_dti_agenda
+      WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
+      and tp_status = 'T'
+      and tp_movimento = 'E'
+      `);
+
+
+      
+      if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
           debug_msg: 'Não foi possivel cancelar o horario!',
         };
       }
-
 
 
     const dados ={

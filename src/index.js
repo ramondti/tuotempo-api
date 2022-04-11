@@ -83,18 +83,18 @@ app.get("/availabilities/:activity_lid/first",async (req, res) => {
 });
 
 
-// app.post("/appointments",async (req, res) => {
-//   const {availability,user,notes,tags,referral_doctor,communication} = req.body;
-//   const json = await post_appointments(availability,user,notes,tags,referral_doctor,communication);
-//   //console.log(user)
-//   return res.json(json);
-// });
+app.post("/appointments",async (req, res) => {
+  const {availability,user,notes,tags,referral_doctor,communication} = req.body;
+  const json = await post_appointments(availability,user,notes,tags,referral_doctor,communication);
+  //console.log(user)
+  return res.json(json);
+});
 
 
-// app.delete("/appointments/:app_lid",async (req, res) => {
-//   const json = await del_appointments(req.params.app_lid);
-//   return res.json(json);
-// });
+app.delete("/appointments/:app_lid",async (req, res) => {
+  const json = await del_appointments(req.params.app_lid);
+  return res.json(json);
+});
 
 
 app.listen(8283, (err, data) => {
