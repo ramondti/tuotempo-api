@@ -1,10 +1,15 @@
 import knex from '../../database/db';
 const oracledb = require('oracledb');
 
-export async function post_appointments(availability,user,notes,tags,referral_doctor,communication) {
+export async function post_appointments(
+  availability,
+  user,
+  notes,
+  tags,
+  referral_doctor,
+  communication,
+) {
   try {
-    
-
     const verifica_horario = await knex.raw(`
     SELECT DISTINCT
     to_char(it_agenda_central.hr_agenda,'dd/mm/yyyy') dt_agenda,
@@ -29,17 +34,16 @@ export async function post_appointments(availability,user,notes,tags,referral_do
    order by 1 DESC                    
     `);
 
-    if (!verifica_horario || verifica_horario.length === 0) { 
+    if (!verifica_horario || verifica_horario.length === 0) {
       return {
         result: 'OK',
         debug_msg: 'Horario não esta disponivel!',
       };
     }
-  
 
     const verifica = await knex.raw(`
     SELECT *
-     FROM dataintegra.tbl_dti_paciente
+     FROM tbl_dti_paciente
     WHERE cd_paciente_integra = ${user.user_lid}
     and cd_paciente is not null
     and tp_status = 'T'
@@ -47,21 +51,20 @@ export async function post_appointments(availability,user,notes,tags,referral_do
 
     var seq_agenda;
 
-    var user_lid_existe = null ;
-
+    var user_lid_existe = null;
 
     if (!verifica || verifica.length !== 0) {
-
-      user_lid_existe = "USER_LID Já existe";
+      user_lid_existe = 'USER_LID Já existe';
 
       const seq_paciente = verifica[0].CD_DTI_PACIENTE;
 
       console.log(verifica[0].CD_DTI_PACIENTE);
 
-      
-      seq_agenda = await knex.raw(`select dataintegra.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`);
+      seq_agenda = await knex.raw(
+        `select seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
+      );
       await knex.raw(`
-      INSERT INTO dataintegra.tbl_dti_agenda (
+      INSERT INTO tbl_dti_agenda (
         cd_dti_agenda,
         tp_status,   
         ds_erro,      
@@ -105,36 +108,31 @@ export async function post_appointments(availability,user,notes,tags,referral_do
           P_RESULT VARCHAR2(30);
         BEGIN
         dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := dataintegra.fnc_dti_controla_agendamento;
+        P_RESULT := fnc_dti_controla_agendamento;
         END;
-        `
+        `,
       );
-      
 
       const verifica_agenda = await knex.raw(`
       SELECT *
-       FROM dataintegra.tbl_dti_agenda
+       FROM tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);
 
-
-      
       if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
           debug_msg: 'Não foi possivel Registrar o paciente!',
         };
       }
-
-    }
-
-    else {
-
+    } else {
       user_lid_existe = user.user_lid;
-      const seq_paciente = await knex.raw(`select dataintegra.seq_dti_paciente.nextval seq_dti from dual`);
+      const seq_paciente = await knex.raw(
+        `select seq_dti_paciente.nextval seq_dti from dual`,
+      );
       await knex.raw(`
-      INSERT INTO dataintegra.tbl_dti_paciente(
+      INSERT INTO tbl_dti_paciente(
         cd_dti_paciente,
         tp_status,   
         ds_erro,      
@@ -189,14 +187,14 @@ export async function post_appointments(availability,user,notes,tags,referral_do
         
         BEGIN 
         dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := dataintegra.fnc_dti_controla_cad_paciente;
+        P_RESULT := fnc_dti_controla_cad_paciente;
         END;
-        `
+        `,
       );
 
       const verifica_paci = await knex.raw(`
       SELECT *
-       FROM dataintegra.tbl_dti_agenda
+       FROM tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);
@@ -208,15 +206,12 @@ export async function post_appointments(availability,user,notes,tags,referral_do
         };
       }
 
-
-
-
-      
-      seq_agenda = await knex.raw(`select dataintegra.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`);
-    
+      seq_agenda = await knex.raw(
+        `select seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
+      );
 
       await knex.raw(`
-      INSERT INTO dataintegra.tbl_dti_agenda (
+      INSERT INTO tbl_dti_agenda (
         cd_dti_agenda,
         tp_status,   
         ds_erro,      
@@ -261,21 +256,18 @@ export async function post_appointments(availability,user,notes,tags,referral_do
           P_RESULT VARCHAR2(30);
         BEGIN 
         dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := dataintegra.fnc_dti_controla_agendamento;
+        P_RESULT := fnc_dti_controla_agendamento;
         END;
-        `
+        `,
       );
-      
 
       const verifica_agenda = await knex.raw(`
       SELECT *
-       FROM dataintegra.tbl_dti_agenda
+       FROM tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);
 
-
-      
       if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
@@ -284,78 +276,74 @@ export async function post_appointments(availability,user,notes,tags,referral_do
       }
     }
 
-
-    const dados ={
-    "app_lid":seq_agenda[0].SEQ_DTI_AGENDA,
-    "availability": {
-      "availability_lid": availability.availability_lid,
-      "date": availability.date,
-      "start_time": availability.start_time,
-      "end_time": availability.end_time,
-      "location_lid": availability.location_lid,
-      "resource_lid": availability.resource_lid,
-      "activity_lid": availability.activity_lid,
-      "insurance_lid": availability.insurance_lid,
-     },
-    "user": {
-      "user_lid": user_lid_existe,
-      "id_number": { 
-        "number":user.id_number.number,
-        "type":user.id_number.type
+    const dados = {
+      app_lid: seq_agenda[0].SEQ_DTI_AGENDA,
+      availability: {
+        availability_lid: availability.availability_lid,
+        date: availability.date,
+        start_time: availability.start_time,
+        end_time: availability.end_time,
+        location_lid: availability.location_lid,
+        resource_lid: availability.resource_lid,
+        activity_lid: availability.activity_lid,
+        insurance_lid: availability.insurance_lid,
       },
-      "first_name": user.first_name,
-      "second_name": user.second_name,
-      "third_name":user.third_name,
-      "birthdate": user.birthdate,
-      "place_of_birth": user.place_of_birth,
-      "gender": user.gender, 
-      "contact": {
-          "email": user.contact.email,
-          "landline": user.contact.landline,
-          "mobile": user.contact.mobile,
-          "work": user.contact.work 
-      },
-      "privacy": {
-        "communication_preferences": {
-            "SMS": user.privacy.communication_preferences.sms,
-            "email": user.privacy.communication_preferences.email,
-            "phone": user.privacy.communication_preferences.phone
+      user: {
+        user_lid: user_lid_existe,
+        id_number: {
+          number: user.id_number.number,
+          type: user.id_number.type,
         },
-        "primary": user.privacy.primary,
-        "promotions": user.privacy.promotions,
-        "review": user.privacy.review,
-        "dossier": user.privacy.dossier
-    },
-      "address": {
-        "street": user.address.street,
-        "street_number": user.address.street_number,
-        "zipcode": user.address.zipcode,
-        "city": user.address.city,
-        "province": user.address.province,
-        "region": user.address.region,
-        "country":user.address.country
-    }
-  },
-  "notes":notes, 
-  "tags": tags,
-  "referral_doctor": referral_doctor, 
-  "communication": {
-      "email": communication.email, 
-      "mobile_phone": communication.mobile_phone
-  }
-}
-
-
+        first_name: user.first_name,
+        second_name: user.second_name,
+        third_name: user.third_name,
+        birthdate: user.birthdate,
+        place_of_birth: user.place_of_birth,
+        gender: user.gender,
+        contact: {
+          email: user.contact.email,
+          landline: user.contact.landline,
+          mobile: user.contact.mobile,
+          work: user.contact.work,
+        },
+        privacy: {
+          communication_preferences: {
+            SMS: user.privacy.communication_preferences.sms,
+            email: user.privacy.communication_preferences.email,
+            phone: user.privacy.communication_preferences.phone,
+          },
+          primary: user.privacy.primary,
+          promotions: user.privacy.promotions,
+          review: user.privacy.review,
+          dossier: user.privacy.dossier,
+        },
+        address: {
+          street: user.address.street,
+          street_number: user.address.street_number,
+          zipcode: user.address.zipcode,
+          city: user.address.city,
+          province: user.address.province,
+          region: user.address.region,
+          country: user.address.country,
+        },
+      },
+      notes: notes,
+      tags: tags,
+      referral_doctor: referral_doctor,
+      communication: {
+        email: communication.email,
+        mobile_phone: communication.mobile_phone,
+      },
+    };
 
     return { result: 'OK', return: dados };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
       result: 'ERROR',
-      debug_msg: 'Erro de busca!'
+      debug_msg: 'Erro de busca!',
     };
   }
 }
 
-
-export { post_appointments }
+export { post_appointments };
