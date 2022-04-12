@@ -43,7 +43,7 @@ export async function post_appointments(
 
     const verifica = await knex.raw(`
     SELECT *
-     FROM tbl_dti_paciente
+     FROM tuotempo.tbl_dti_paciente
     WHERE cd_paciente_integra = ${user.user_lid}
     and cd_paciente is not null
     and tp_status = 'T'
@@ -61,10 +61,10 @@ export async function post_appointments(
       console.log(verifica[0].CD_DTI_PACIENTE);
 
       seq_agenda = await knex.raw(
-        `select seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
+        `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
       );
       await knex.raw(`
-      INSERT INTO tbl_dti_agenda (
+      INSERT INTO tuotempo.tbl_dti_agenda (
         cd_dti_agenda,
         tp_status,   
         ds_erro,      
@@ -107,15 +107,14 @@ export async function post_appointments(
         DECLARE
           P_RESULT VARCHAR2(30);
         BEGIN
-        dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := fnc_dti_controla_agendamento;
+        P_RESULT := tuotempo.fnc_dti_controla_agendamento;
         END;
         `,
       );
 
       const verifica_agenda = await knex.raw(`
       SELECT *
-       FROM tbl_dti_agenda
+       FROM tuotempo.tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);
@@ -129,10 +128,10 @@ export async function post_appointments(
     } else {
       user_lid_existe = user.user_lid;
       const seq_paciente = await knex.raw(
-        `select seq_dti_paciente.nextval seq_dti from dual`,
+        `select tuotempo.seq_dti_paciente.nextval seq_dti from dual`,
       );
       await knex.raw(`
-      INSERT INTO tbl_dti_paciente(
+      INSERT INTO tuotempo.tbl_dti_paciente(
         cd_dti_paciente,
         tp_status,   
         ds_erro,      
@@ -186,15 +185,14 @@ export async function post_appointments(
           P_RESULT VARCHAR2(30);
         
         BEGIN 
-        dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := fnc_dti_controla_cad_paciente;
+        P_RESULT := tuotempo.fnc_dti_controla_cad_paciente;
         END;
         `,
       );
 
       const verifica_paci = await knex.raw(`
       SELECT *
-       FROM tbl_dti_agenda
+       FROM tuotempo.tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);
@@ -207,11 +205,11 @@ export async function post_appointments(
       }
 
       seq_agenda = await knex.raw(
-        `select seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
+        `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
       );
 
       await knex.raw(`
-      INSERT INTO tbl_dti_agenda (
+      INSERT INTO tuotempo.tbl_dti_agenda (
         cd_dti_agenda,
         tp_status,   
         ds_erro,      
@@ -255,15 +253,14 @@ export async function post_appointments(
         DECLARE
           P_RESULT VARCHAR2(30);
         BEGIN 
-        dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := fnc_dti_controla_agendamento;
+        P_RESULT := tuotempo.fnc_dti_controla_agendamento;
         END;
         `,
       );
 
       const verifica_agenda = await knex.raw(`
       SELECT *
-       FROM tbl_dti_agenda
+       FROM tuotempo.tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);

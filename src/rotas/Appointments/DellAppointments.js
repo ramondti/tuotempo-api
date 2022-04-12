@@ -4,7 +4,7 @@ export async function del_appointments(app_lid) {
   try {
     const verifica = await knex.raw(`
     SELECT * 
-      FROM tbl_dti_agenda
+      FROM tuotempo.tbl_dti_agenda
     WHERE cd_dti_agenda = ${app_lid} 
     `);
 
@@ -17,18 +17,18 @@ export async function del_appointments(app_lid) {
 
     const result = await knex.raw(`
     SELECT *
-      FROM tbl_dti_agenda
+      FROM tuotempo.tbl_dti_agenda
     WHERE cd_dti_agenda = ${app_lid}
     `);
 
     const paciente_del = await knex.raw(`
     SELECT *
-      FROM tbl_dti_paciente
+      FROM tuotempo.tbl_dti_paciente
     WHERE cd_registro_pai = ${result[0].CD_REGISTRO_FILHO}
     `);
 
     await knex.raw(` 
-    UPDATE tbl_dti_agenda SET tp_status= 'A', tp_movimento = 'E' 
+    UPDATE tuotempo.tbl_dti_agenda SET tp_status= 'A', tp_movimento = 'E' 
     WHERE cd_dti_agenda = ${app_lid} 
       `);
 
@@ -37,15 +37,14 @@ export async function del_appointments(app_lid) {
         DECLARE
           P_RESULT VARCHAR2(30);
         BEGIN
-        dbamv.pkg_mv2000.atribui_empresa(1);
-        P_RESULT := fnc_dti_controla_agendamento;
+        P_RESULT := tuotempo.fnc_dti_controla_agendamento;
         END;
         `,
     );
 
     const verifica_agenda = await knex.raw(`
       SELECT *
-       FROM tbl_dti_agenda
+       FROM tuotempo.tbl_dti_agenda
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       and tp_movimento = 'E'
