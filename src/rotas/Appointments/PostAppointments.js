@@ -190,10 +190,11 @@ export async function post_appointments(
         `,
       );
 
+
       const verifica_paci = await knex.raw(`
       SELECT *
-       FROM tuotempo.tbl_dti_agenda
-      WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
+       FROM tuotempo.tbl_dti_paciente
+      WHERE cd_dti_paciente = ${seq_paciente[0].SEQ_DTI}
       and tp_status = 'T'
       `);
 
@@ -203,6 +204,7 @@ export async function post_appointments(
           debug_msg: 'Não foi possivel Registrar o paciente!',
         };
       }
+
 
       seq_agenda = await knex.raw(
         `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
