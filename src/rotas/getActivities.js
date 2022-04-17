@@ -29,6 +29,11 @@ export async function get_activities() {
     LEFT JOIN dbamv.pro_fat ON pro_fat.cd_pro_Fat = exa_rx.exa_rx_cd_pro_fat
     LEFT JOIN dbamv.gru_pro ON gru_pro.cd_gru_pro = pro_fat.cd_gru_pro
     WHERE recurso_central.cd_recurso_central IS NOT NULL
+    AND item_agendamento.cd_item_agendamento IS NOT NULL  
+    AND (CASE WHEN gru_pro.cd_gru_pro IS NULL THEN (SELECT pro_fat.cd_gru_pro                             
+                                                  FROM pro_fat                                          
+                                                 WHERE pro_fat.cd_pro_fat =item_agendamento.cd_pro_Fat)
+                                            ELSE gru_pro.cd_gru_pro END) IS NOT NULL 
 
   `);
 
@@ -99,7 +104,7 @@ AND recurso_central.cd_recurso_central IS NOT null
 AND (CASE WHEN gru_pro.cd_gru_pro IS NULL THEN (SELECT pro_fat.cd_gru_pro                             
                                                 FROM pro_fat                                          
                                                WHERE pro_fat.cd_pro_fat =item_agendamento.cd_pro_Fat)
-                                          ELSE gru_pro.cd_gru_pro END) IS NOT NULL;
+                                          ELSE gru_pro.cd_gru_pro END) IS NOT NULL
 
 
 
@@ -173,7 +178,7 @@ AND recurso_central.cd_recurso_central IS NOT null
 AND (CASE WHEN gru_pro.cd_gru_pro IS NULL THEN (SELECT pro_fat.cd_gru_pro                             
                                                 FROM pro_fat                                          
                                                WHERE pro_fat.cd_pro_fat =item_agendamento.cd_pro_Fat)
-                                          ELSE gru_pro.cd_gru_pro END) IS NOT NULL;
+                                          ELSE gru_pro.cd_gru_pro END) IS NOT NULL
 
 
   `);

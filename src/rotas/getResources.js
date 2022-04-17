@@ -200,11 +200,14 @@ async function findCdUnidadeAtendimentoByIdLid(idLid) {
 async function findConvenioByIdLid(idLid) {
   try {
     const result = await knex.raw(`
-    SELECT DISTINCT cd_convenio
-      FROM agenda_central 
+    SELECT DISTINCT 
+      convenio.cd_convenio || '-' || con_pla.cd_con_pla cd_convenio 
+    FROM agenda_central 
     LEFT JOIN DBAMV.agenda_central_convenio ON agenda_central_convenio.cd_agenda_central = agenda_central.cd_agenda_central
-    WHERE cd_prestador = ${idLid}
-    AND cd_convenio IS NOT NULL`
+    LEFT JOIN DBAMV.convenio ON convenio.cd_convenio = agenda_central_convenio.cd_convenio
+    LEFT JOIN con_pla ON con_pla.cd_convenio = convenio.cd_convenio  
+    WHERE agenda_central.cd_prestador =  ${idLid}
+    and agenda_central_convenio.cd_convenio IS NOT NULL`
     );
 
   //console.log(result.map(value => value.CD_CONVENIO));
