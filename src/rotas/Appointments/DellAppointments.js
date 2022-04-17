@@ -45,7 +45,7 @@ export async function del_appointments(app_lid) {
     const verifica_agenda = await knex.raw(`
       SELECT *
        FROM tuotempo.tbl_dti_agenda
-      WHERE cd_dti_agenda = ${verifica[0].SEQ_DTI_AGENDA}
+      WHERE cd_dti_agenda = ${result[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       and tp_movimento = 'E'
       `);
