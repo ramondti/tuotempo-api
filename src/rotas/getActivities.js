@@ -221,8 +221,6 @@ AND (CASE WHEN gru_pro.cd_gru_pro IS NULL THEN (SELECT pro_fat.cd_gru_pro
 
 export async function get_activities_insurance_lid(insurance_lid) {
   try {
-
-    console.log(insurance_lid)
     const pega_conv = await knex.raw(`
       SELECT 
         NVL(SUBSTR('${insurance_lid}',INSTR('${insurance_lid}', '-') + 1, INSTR('${insurance_lid}', '-')+20000), ${insurance_lid}) cd_con_pla,

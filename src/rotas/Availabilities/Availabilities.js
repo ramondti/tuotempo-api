@@ -2,6 +2,16 @@ import knex from '../../database/db';
 
 export async function get_availabilities(activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids) {
   try {
+
+
+    const pega_conv = await knex.raw(`
+    SELECT 
+      NVL(SUBSTR('${insurance_lid}',INSTR('${insurance_lid}', '-') + 1, INSTR('${insurance_lid}', '-')+20000), ${insurance_lid}) cd_con_pla,
+      NVL(SUBSTR('${insurance_lid}',0, INSTR('${insurance_lid}', '-')-1), '${insurance_lid}') cd_convenio
+    FROM dual
+
+  `);
+
     const result = await knex.raw(`
     SELECT DISTINCT
     TO_CHAR(it_agenda_central.hr_agenda,'dd/mm/yyyy') ||'_'|| TO_CHAR(it_agenda_central.hr_agenda,'HH24:MI:SS') availability_lid, 
@@ -19,11 +29,12 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = AGENDA_CENTRAL.cd_prestador
    LEFT JOIN DBAMV.ATENDIME ON ATENDIME.cd_prestador = PRESTADOR.cd_prestador
    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
-  WHERE recurso_central.cd_recurso_central = '${activity_lid}'
+  WHERE item_agendamento_recurso.cd_item_agendamento = '${activity_lid}'
    and To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${start_day}'
    AND To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${end_day}'
    AND To_Char(it_agenda_central.hr_agenda,'HH24:MI') BETWEEN '${start_time}' AND '${end_time}'
-   AND convenio.cd_convenio in (${insurance_lid})
+   and convenio.cd_convenio = (${pega_conv[0].CD_CONVENIO})
+   and con_pla.cd_con_pla = (${pega_conv[0].CD_CON_PLA})
    AND prestador.cd_prestador in (${resource_lids})
    AND agenda_central.cd_unidade_atendimento in (${location_lids})
    AND it_agenda_central.cd_paciente IS NULL
@@ -66,6 +77,15 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
 
 export async function get_availabilities_first(activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids) {
   try {
+
+    const pega_conv = await knex.raw(`
+      SELECT 
+        NVL(SUBSTR('${insurance_lid}',INSTR('${insurance_lid}', '-') + 1, INSTR('${insurance_lid}', '-')+20000), ${insurance_lid}) cd_con_pla,
+        NVL(SUBSTR('${insurance_lid}',0, INSTR('${insurance_lid}', '-')-1), '${insurance_lid}') cd_convenio
+      FROM dual
+
+    `);
+
     const result = await knex.raw(`
     SELECT DISTINCT
     TO_CHAR(it_agenda_central.hr_agenda,'dd/mm/yyyy') ||'_'|| TO_CHAR(it_agenda_central.hr_agenda,'HH24:MI:SS') availability_lid, 
@@ -83,12 +103,12 @@ export async function get_availabilities_first(activity_lid,start_day,end_day,st
    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = AGENDA_CENTRAL.cd_prestador
    LEFT JOIN DBAMV.ATENDIME ON ATENDIME.cd_prestador = PRESTADOR.cd_prestador
    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
-  WHERE recurso_central.cd_recurso_central = '${activity_lid}'
+  WHERE item_agendamento_recurso.cd_item_agendamento = '${activity_lid}'
    and To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${start_day}'
    AND To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${end_day}'
    AND To_Char(it_agenda_central.hr_agenda,'HH24:MI') BETWEEN '${start_time}' AND '${end_time}'
-   AND convenio.cd_convenio in (${insurance_lid})
-   AND prestador.cd_prestador in (${resource_lids})
+   and convenio.cd_convenio = (${pega_conv[0].CD_CONVENIO})
+   and con_pla.cd_con_pla = (${pega_conv[0].CD_CON_PLA})
    AND agenda_central.cd_unidade_atendimento in (${location_lids})
    AND it_agenda_central.cd_paciente IS NULL
    AND it_agenda_central.nm_paciente IS NULL 
