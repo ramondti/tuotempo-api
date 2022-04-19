@@ -32,7 +32,8 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
    LEFT JOIN dbamv.con_pla ON con_pla.cd_convenio = convenio.cd_convenio
   WHERE item_agendamento_recurso.cd_item_agendamento = '${activity_lid}'
-  AND to_date(To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY')) BETWEEN '${start_day}' AND '${end_day}'
+  --AND to_date(To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY')) BETWEEN '${start_day}' AND '${end_day}'
+   AND it_agenda_central.hr_agenda BETWEEN To_Date('${start_day}','DD/MM/YYYY') AND To_Date('${end_day}','DD/MM/YYYY')
    AND To_Char(it_agenda_central.hr_agenda,'HH24:MI') BETWEEN '${start_time}' AND '${end_time}'
    and convenio.cd_convenio = (${pega_conv[0].CD_CONVENIO})
    and con_pla.cd_con_pla = (${pega_conv[0].CD_CON_PLA})
@@ -107,7 +108,8 @@ export async function get_availabilities_first(activity_lid,start_day,end_day,st
    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
    LEFT JOIN dbamv.con_pla ON con_pla.cd_convenio = convenio.cd_convenio
   WHERE item_agendamento_recurso.cd_item_agendamento = '${activity_lid}'
-  AND to_date(To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY')) BETWEEN '${start_day}' AND '${end_day}'
+  --AND to_date(To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY')) BETWEEN '' AND ''
+   AND it_agenda_central.hr_agenda BETWEEN To_Date('${start_day}','DD/MM/YYYY') AND To_Date('${end_day}','DD/MM/YYYY')
    AND To_Char(it_agenda_central.hr_agenda,'HH24:MI') BETWEEN '${start_time}' AND '${end_time}'
    and convenio.cd_convenio = (${pega_conv[0].CD_CONVENIO})
    and con_pla.cd_con_pla = (${pega_conv[0].CD_CON_PLA})
