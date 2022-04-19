@@ -14,7 +14,7 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
 
     const result = await knex.raw(`
     SELECT DISTINCT
-    TO_CHAR(it_agenda_central.hr_agenda,'dd/mm/yyyy') ||'_'|| TO_CHAR(it_agenda_central.hr_agenda,'HH24:MI:SS') availability_lid, 
+    it_agenda_central.cd_it_agenda_central availability_lid,
     to_char(it_agenda_central.hr_agenda,'dd/mm/yyyy') dt_agenda,
     To_Char(it_agenda_central.hr_agenda,'HH24:MI') hr_inicio,
     (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi')) hr_fim,
@@ -90,7 +90,7 @@ export async function get_availabilities_first(activity_lid,start_day,end_day,st
 
     const result = await knex.raw(`
     SELECT DISTINCT
-    TO_CHAR(it_agenda_central.hr_agenda,'dd/mm/yyyy') ||'_'|| TO_CHAR(it_agenda_central.hr_agenda,'HH24:MI:SS') availability_lid, 
+    it_agenda_central.cd_it_agenda_central availability_lid, 
     to_char(it_agenda_central.hr_agenda,'dd/mm/yyyy') dt_agenda,
     To_Char(it_agenda_central.hr_agenda,'HH24:MI:SS') hr_inicio,
     (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi')) hr_fim,
@@ -99,8 +99,8 @@ export async function get_availabilities_first(activity_lid,start_day,end_day,st
     recurso_central.cd_recurso_central,
     agenda_central.cd_agenda_central,
     convenio.cd_convenio
-   FROM AGENDA_CENTRAL
-   LEFT JOIN dbamv.recurso_central ON recurso_central.cd_recurso_central = AGENDA_CENTRAL.cd_recurso_central
+   FROM AGENDA_CENTRAL_c
+   LEFT JOIN dbamv.recurso_central ON recursoentral.cd_recurso_central = AGENDA_CENTRAL.cd_recurso_central
    LEFT JOIN dbamv.item_agendamento_recurso ON item_agendamento_recurso.cd_recurso_central = recurso_central.cd_recurso_central
    LEFT JOIN dbamv.IT_AGENDA_CENTRAL ON  dbamv.IT_AGENDA_CENTRAL.cd_agenda_central = AGENDA_CENTRAL.cd_agenda_central
    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = AGENDA_CENTRAL.cd_prestador
