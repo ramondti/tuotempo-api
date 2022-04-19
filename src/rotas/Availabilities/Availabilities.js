@@ -22,7 +22,8 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
     agenda_central.cd_prestador,
     recurso_central.cd_recurso_central,
     agenda_central.cd_agenda_central,
-    convenio.cd_convenio
+    convenio.cd_convenio,
+    item_agendamento_recurso.cd_item_agendamento
    FROM AGENDA_CENTRAL
    LEFT JOIN dbamv.recurso_central ON recurso_central.cd_recurso_central = AGENDA_CENTRAL.cd_recurso_central
    LEFT JOIN dbamv.item_agendamento_recurso ON item_agendamento_recurso.cd_recurso_central = recurso_central.cd_recurso_central
@@ -62,7 +63,7 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
         end_time: element.HR_FIM,
         location_lid:element.CD_UNIDADE_ATENDIMENTO,
         resource_lid:element.CD_PRESTADOR,
-        activity_lid:element.CD_RECURSO_CENTRAL,
+        activity_lid:element.CD_ITEM_AGENDAMENTO,
         insurance_lid:element.CD_CONVENIO
       });
     });
