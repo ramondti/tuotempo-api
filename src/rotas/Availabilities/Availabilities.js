@@ -29,6 +29,7 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = AGENDA_CENTRAL.cd_prestador
    LEFT JOIN DBAMV.ATENDIME ON ATENDIME.cd_prestador = PRESTADOR.cd_prestador
    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
+   LEFT JOIN dbamv.con_pla ON con_pla.cd_convenio = convenio.cd_convenio
   WHERE item_agendamento_recurso.cd_item_agendamento = '${activity_lid}'
    and To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${start_day}'
    AND To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${end_day}'
@@ -103,6 +104,7 @@ export async function get_availabilities_first(activity_lid,start_day,end_day,st
    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = AGENDA_CENTRAL.cd_prestador
    LEFT JOIN DBAMV.ATENDIME ON ATENDIME.cd_prestador = PRESTADOR.cd_prestador
    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
+   LEFT JOIN dbamv.con_pla ON con_pla.cd_convenio = convenio.cd_convenio
   WHERE item_agendamento_recurso.cd_item_agendamento = '${activity_lid}'
    and To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${start_day}'
    AND To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${end_day}'
