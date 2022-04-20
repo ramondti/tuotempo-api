@@ -14,6 +14,7 @@ import { get_availabilities } from "./rotas/Availabilities/Availabilities";
 import { get_availabilities_first } from "./rotas/Availabilities/Availabilities";
 import { post_appointments } from "./rotas/Appointments/PostAppointments";
 import { del_appointments } from "./rotas/Appointments/DellAppointments";
+import {put_appointments} from "./rotas/Appointments/PutAppointments"
 const app = express();
 
 app.use(express.json({ limit: '50mb' }))
@@ -94,6 +95,13 @@ app.post("/appointments",async (req, res) => {
 app.delete("/appointments/:app_lid",async (req, res) => {
   const json = await del_appointments(req.params.app_lid);
   return res.json(json);
+});
+
+
+app.put("/appointments/:app_lid", async (req, res) => {
+  const status = req.body
+  const json = await put_appointments(req.params.app_lid,status);
+  return res.json(json)
 });
 
 

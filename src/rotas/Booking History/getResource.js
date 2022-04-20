@@ -1,10 +1,11 @@
 import knex from '../database/db';
 
-export async function get_timestamp() {
+export async function get_resource() {
   try {
-    const result = await knex.raw(`
+  
 
-`);
+    const result = await knex.raw(`
+    `);
 
     if (!result || result.length === 0) {
       return {
@@ -28,4 +29,4 @@ export async function get_timestamp() {
   }
 }
 
-export { get_timestamp };
+export { get_resource };
