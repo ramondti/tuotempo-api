@@ -17,7 +17,7 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
       SELECT DISTINCT 
        it_agenda_central.cd_it_agenda_central availability_lid,
        to_char(it_agenda_central.hr_agenda,'dd/mm/yyyy') dt_agenda,
-       To_Char(it_agenda_central.hr_agenda,'HH24:MI:SS') hr_inicio,
+       To_Char(it_agenda_central.hr_agenda,'HH24:MI') hr_inicio,
        (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi')) hr_fim,
        agenda_central.cd_unidade_atendimento,
        agenda_central.cd_prestador,
@@ -64,7 +64,7 @@ export async function get_availabilities(activity_lid,start_day,end_day,start_ti
         location_lid:element.CD_UNIDADE_ATENDIMENTO,
         resource_lid:element.CD_PRESTADOR,
         activity_lid:element.CD_ITEM_AGENDAMENTO,
-        insurance_lid:element.CD_CONVENIO
+        insurance_lid: insurance_lid
       });
     });
 
