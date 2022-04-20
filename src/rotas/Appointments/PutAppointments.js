@@ -53,7 +53,7 @@ export async function put_appointments(app_lid, status) {
     console.log(status)
 
   await knex.raw(`
-  UPDATE DBAMV.IT_AGENDA_CENTRAL SET ds_oberservacao = '${status}' 
+  UPDATE DBAMV.IT_AGENDA_CENTRAL SET ds_observacao = '${status}' 
   WHERE cd_it_agenda_central = ${app_lid} 
 
   `
