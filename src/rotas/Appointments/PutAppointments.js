@@ -1,9 +1,7 @@
-import knex from '../database/db';
+import knex from '../../database/db';
 
 export async function put_appointments(app_lid, status) {
   try {
-
-
 
     const result = await knex.raw(`
     SELECT 
