@@ -1,6 +1,6 @@
 import knex from '../../database/db';
 
-export async function get_availabilities(activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids) {
+export async function get_availabilities(activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids,results_number) {
   try {
 
 
@@ -114,6 +114,7 @@ export async function get_availabilities_first(activity_lid,start_day,end_day,st
    AND To_Char(it_agenda_central.hr_agenda,'HH24:MI') BETWEEN '${start_time}' AND '${end_time}'
    and convenio.cd_convenio = (${pega_conv[0].CD_CONVENIO})
    and con_pla.cd_con_pla = (${pega_conv[0].CD_CON_PLA})
+   AND prestador.cd_prestador in (${resource_lids})
    AND agenda_central.cd_unidade_atendimento in (${location_lids})
    AND it_agenda_central.cd_paciente IS NULL
    AND it_agenda_central.nm_paciente IS NULL 
