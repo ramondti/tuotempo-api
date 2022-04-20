@@ -71,8 +71,8 @@ app.get("/insurances/:insurance_lid/activities",async (req, res) => {
 
 
 app.get("/availabilities/:activity_lid",async (req, res) => {
-  const {start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids} = req.query;
-  const json = await get_availabilities(req.params.activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids);
+  const {start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids,results_number} = req.query;
+  const json = await get_availabilities(req.params.activity_lid,start_day,end_day,start_time,end_time,insurance_lid,resource_lids,location_lids,results_number);
   return res.json(json);
 });
 
