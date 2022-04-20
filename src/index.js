@@ -99,7 +99,7 @@ app.delete("/appointments/:app_lid",async (req, res) => {
 
 
 app.put("/appointments/:app_lid", async (req, res) => {
-  const status = req.body
+  const {status} = req.body
   const json = await put_appointments(req.params.app_lid,status);
   return res.json(json)
 });
