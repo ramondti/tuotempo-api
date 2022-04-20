@@ -1,6 +1,4 @@
 import knex from '../../database/db';
-const oracledb = require('oracledb');
-
 export async function post_appointments(
   availability,
   user,

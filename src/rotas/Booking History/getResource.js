@@ -5,6 +5,8 @@ export async function get_resource() {
   
 
     const result = await knex.raw(`
+
+
     `);
 
     if (!result || result.length === 0) {

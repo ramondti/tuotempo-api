@@ -49,6 +49,8 @@ export async function put_appointments(app_lid, status) {
         result: 'OK'
       };
     }
+    
+    console.log(status)
 
   await knex.raw(`
   UPDATE DBAMV.IT_AGENDA_CENTRAL SET ds_oberservacao = ${status} 
