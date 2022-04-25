@@ -61,9 +61,11 @@ AND PACIENTE.CD_PACIENTE =  (SELECT cd_depara_mv
 
 AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') 
 BETWEEN 	'${start_date}' 
-AND       '${end_date}';
+AND       '${end_date}'
 
     `);
+
+    console.log(result)
 
     if (!result || result.length === 0) {
       return {

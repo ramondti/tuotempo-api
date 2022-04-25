@@ -52,9 +52,11 @@ AND IT_AGENDA_CENTRAL.cd_it_agenda_central = (SELECT cd_depara_mv
                                                 FROM tuotempo.depara 
                                               WHERE  cd_depara_mv = IT_AGENDA_CENTRAL.cd_it_agenda_central
                                               AND tp_depara = 'AGENDA')
-AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') BETWEEN '${start_date}' AND '${end_date}';
+AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') BETWEEN '${start_date}' AND '${end_date}'
 
     `);
+
+    console.log(result)
 
     if (!result || result.length === 0) {
       return {
@@ -67,12 +69,12 @@ AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') BETWEEN '${start_date}' AND '
       dados.push({
         "app_lid": element.APP_LID,
         "created": element.CREATED,
-        "cancelled": null,
-        "modified": null,
+        "cancelled": element.CANCELLED,
+        "modified": element.MODIFIED,
         "status": element.STATUS,
         "checkedin": null,
-        "start_visit": null,
-        "end_visit": null,
+        "start_visit": element.START_VISIT,
+        "end_visit": element.END_VISIT,
         "availability": {
             "availability_lid": element.AVAILABILITY_LID,
             "date": element.DATA,

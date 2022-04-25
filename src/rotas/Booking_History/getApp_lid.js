@@ -7,7 +7,7 @@ export async function get_app_lid(app_lid) {
     SELECT 
     null                                                                                                  AS created,
     null                                                                                                  AS cancelled,
-    IT_AGENDA_CENTRAL.dt_gravacao 								                                                        AS modified,
+    null								                                                                                  AS modified,
     IT_AGENDA_CENTRAL.ds_observacao                                                                       AS status,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS checkedin,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
@@ -47,6 +47,8 @@ export async function get_app_lid(app_lid) {
                                                       AND tp_depara = 'AGENDA')
     `);
 
+    console.log(result)
+
 
     if (!result || result.length === 0) {
       return {
@@ -57,16 +59,14 @@ export async function get_app_lid(app_lid) {
     const dados = [];
     result.forEach(element => {
       dados.push({
-        "app_lid": app_lid,
+        "app_lid": element.APP_LID,
         "created": element.CREATED,
-        "cancelled": null,
-        "modified": null,
+        "cancelled": element.CANCELLED,
+        "modified": element.MODIFIED,
         "status": element.STATUS,
         "checkedin": null,
-        "start_visit": null,
-        "end_visit": null,
-        "notes": "", 
-        "tags": "",
+        "start_visit": element.START_VISIT,
+        "end_visit": element.END_VISIT,
         "availability": {
             "availability_lid": element.AVAILABILITY_LID,
             "date": element.DATA,

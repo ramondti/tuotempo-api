@@ -53,8 +53,10 @@ AND IT_AGENDA_CENTRAL.cd_it_agenda_central = (SELECT cd_depara_mv
                                             AND tp_depara = 'AGENDA')
 AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') 
 BETWEEN 	'${start_date}' 
-AND       '${end_date}';
+AND       '${end_date}'
     `);
+
+    console.log(result)
 
     if (!result || result.length === 0) {
       return {
