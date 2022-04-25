@@ -15,6 +15,7 @@ import { get_availabilities_first } from "./rotas/Availabilities/Availabilities"
 import { post_appointments } from "./rotas/Appointments/PostAppointments";
 import { del_appointments } from "./rotas/Appointments/DellAppointments";
 import {put_appointments} from "./rotas/Appointments/PutAppointments"
+import {get_app_lid} from "./rotas/Booking History/getApp_lid"
 const app = express();
 
 app.use(express.json({ limit: '50mb' }))
@@ -103,6 +104,22 @@ app.put("/appointments/:app_lid", async (req, res) => {
   const json = await put_appointments(req.params.app_lid,status);
   return res.json(json)
 });
+
+
+//app.get("/appointments/resources/:resource_lid",async (req, res) => {
+//  const json = await get_resource(req.params.resource_lid,req.params.start_date,req.params.end_date);
+//  return res.json(json);
+//});
+
+
+
+
+app.get("/appointments/:app_lid",async (req, res) => {
+  const json = await get_app_lid(req.params.app_lid);
+  return res.json(json);
+});
+
+
 
 
 app.listen(8283, (err, data) => {
