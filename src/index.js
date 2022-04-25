@@ -14,8 +14,8 @@ import { get_availabilities } from "./rotas/Availabilities/Availabilities";
 import { get_availabilities_first } from "./rotas/Availabilities/Availabilities";
 import { post_appointments } from "./rotas/Appointments/PostAppointments";
 import { del_appointments } from "./rotas/Appointments/DellAppointments";
-import {put_appointments} from "./rotas/Appointments/PutAppointments"
-import {get_app_lid} from "./rotas/Booking History/getApp_lid"
+import {put_appointments} from "./rotas/Appointments/PutAppointments";
+import {get_app_lid} from "./rotas/Booking_History/getApp_lid";
 const app = express();
 
 app.use(express.json({ limit: '50mb' }))

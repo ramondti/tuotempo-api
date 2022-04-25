@@ -1,4 +1,4 @@
-import knex from '../database/db';
+import knex from '../../database/db';
 
 export async function get_app_lid(app_lid) {
   try {

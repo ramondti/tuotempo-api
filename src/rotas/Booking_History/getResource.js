@@ -1,4 +1,4 @@
-import knex from '../database/db';
+import knex from '../../database/db';
 
 export async function get_resource(resource_lid,start_date,end_date) {
   try {
