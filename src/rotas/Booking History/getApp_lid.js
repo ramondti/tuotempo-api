@@ -1,39 +1,37 @@
-import knex from '../../database/db';
+import knex from '../database/db';
 
-export async function put_appointments(app_lid, status) {
+export async function get_app_lid(app_lid) {
   try {
-
+  
     const result = await knex.raw(`
     SELECT 
-    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS app_lid,
-    NULL                                                                                                  AS created,
-    IT_AGENDA_CENTRAL.ds_observacao                                                                       AS cancelled,
+    null                                                                                                  AS created,
+    null                                                                                                  AS cancelled,
     IT_AGENDA_CENTRAL.dt_gravacao 								                                                        AS modified,
-    null                                                                                                  AS status,
-    NULL                                                                                                  AS checkedin,
-    NULL                                                                                                  AS start_visit,
-    NULL                                                                                                  AS end_visit,
+    IT_AGENDA_CENTRAL.ds_observacao                                                                       AS status,
+    To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS checkedin,
+    To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
+    To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_fim,'hh24:mi:ss')      AS end_visit,
     IT_AGENDA_CENTRAL.CD_IT_AGENDA_CENTRAL                                                                AS availability_lid, 
-    to_char(agenda_central.dt_agenda,'dd/mm/yyyy')                                                        AS data,
-    To_Char(it_agenda_central.hr_agenda,'HH24:MI')                                                        AS start_time,
+    agenda_central.dt_agenda                                                                              AS data,
+    IT_AGENDA_CENTRAL.hr_agenda                                                                           AS start_time,
     (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi'))              AS end_time,
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
     prestador.cd_prestador                                                                                AS resurce_lid,
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
     IT_AGENDA_CENTRAL.cd_convenio                                                                         AS insurance_lid,
     NULL                                                                                                  AS PRICE,
-    (SELECT cd_depara_integra 
-      FROM tuotempo.depara 
-    WHERE cd_depara_mv = paciente.cd_paciente
-    AND tp_depara = 'PACIENTE' )                                                                          AS user_lid,  
-    PACIENTE.nr_cpf                                                                                       AS ID_NUMBER,
+        (SELECT cd_depara_integra 
+          FROM tuotempo.depara 
+        WHERE cd_depara_mv = paciente.cd_paciente)                                                        AS user_lid,
+    paciente.nr_cpf                                                                                       AS ID_NUMBER,
     1                                                                                                     AS ID_TYPE,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 
     INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
     INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS second_name,
     PACIENTE.dt_nascimento                                                                                AS birthdate,
-    --' '                                                                                                 AS third_name,
+    ' '                                                                                                   AS third_name,
     PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
     PACIENTE.tp_sexo                                                                                      AS GENDER,
     paciente.email                                                                                        AS email,
@@ -42,11 +40,12 @@ export async function put_appointments(app_lid, status) {
     LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
     LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
-    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = (SELECT cd_depara_mv 
-                                                      FROM tuotempo.depara 
-                                                    WHERE cd_depara_integra = ${app_lid}
-                                                    and tp_depara = 'AGENDA')   
+    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = (  SELECT cd_depara_mv 
+                                                        FROM tuotempo.depara 
+                                                      WHERE cd_depara_integra = ${app_lid}
+                                                      AND tp_depara = 'AGENDA')
     `);
+
 
     if (!result || result.length === 0) {
       return {
@@ -54,23 +53,14 @@ export async function put_appointments(app_lid, status) {
       };
     }
 
-    console.log(status)
-
-  await knex.raw(`
-  UPDATE DBAMV.IT_AGENDA_CENTRAL SET ds_observacao = '${status}' 
-  WHERE cd_it_agenda_central = ${result[0].AVAILABILITY_LID} 
-
-  `
-  )
-
     const dados = [];
     result.forEach(element => {
       dados.push({
         "app_lid": app_lid,
-        "created": null,
+        "created": element.CREATED,
         "cancelled": null,
         "modified": null,
-        "status": status,
+        "status": element.STATUS,
         "checkedin": null,
         "start_visit": null,
         "end_visit": null,
@@ -120,4 +110,4 @@ export async function put_appointments(app_lid, status) {
   }
 }
 
-export { put_appointments };
+export { get_app_lid };
