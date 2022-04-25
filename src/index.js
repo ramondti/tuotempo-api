@@ -116,6 +116,7 @@ app.put("/appointments/:app_lid", async (req, res) => {
 
 app.get("/appointments/:app_lid",async (req, res) => {
   const json = await get_app_lid(req.params.app_lid);
+  console.log('Entrou aq')
   return res.json(json);
 });
 
