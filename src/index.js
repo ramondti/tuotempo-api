@@ -16,6 +16,9 @@ import { post_appointments } from "./rotas/Appointments/PostAppointments";
 import { del_appointments } from "./rotas/Appointments/DellAppointments";
 import {put_appointments} from "./rotas/Appointments/PutAppointments";
 import {get_app_lid} from "./rotas/Booking_History/getApp_lid";
+import {get_resource} from "./rotas/Booking_History/getResource"
+import {get_user_lid} from "./rotas/Booking_History/getUser_lid";
+import {get_noshow} from "./rotas/Booking_History/getNoshow"
 const app = express();
 
 app.use(express.json({ limit: '50mb' }))
@@ -25,7 +28,7 @@ app.get("/locations",async (req, res) => {
     return res.json(json);
   });
 
-  app.get("/locations/:location_lid",async (req, res) => {
+app.get("/locations/:location_lid",async (req, res) => {
     const json = await get_location_id(req.params.location_lid);
     return res.json(json);
   });
@@ -106,12 +109,10 @@ app.put("/appointments/:app_lid", async (req, res) => {
 });
 
 
-//app.get("/appointments/resources/:resource_lid",async (req, res) => {
-//  const json = await get_resource(req.params.resource_lid,req.params.start_date,req.params.end_date);
-//  return res.json(json);
-//});
-
-
+app.get("/appointments/resources/:resource_lid",async (req, res) => {
+ const json = await get_resource(req.params.resource_lid,req.params.start_date,req.params.end_date);
+ return res.json(json);
+});
 
 
 app.get("/appointments/:app_lid",async (req, res) => {
@@ -120,6 +121,18 @@ app.get("/appointments/:app_lid",async (req, res) => {
   return res.json(json);
 });
 
+
+app.get("/appointments/users/:user_lid",async (req, res) => {
+  const {start_date,end_date} = req.query;
+  const json = await get_user_lid(req.params.user_lid,start_date,end_date);
+  return res.json(json);
+});
+
+app.get("/appointments/noshow",async (req, res) => {
+  const {start_date,end_date} = req.query;
+  const json = await get_noshow(start_date,end_date);
+  return res.json(json);
+});
 
 
 
