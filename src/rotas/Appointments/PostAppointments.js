@@ -8,28 +8,21 @@ export async function post_appointments(
   communication,
 ) {
   try {
+
+    
+    const pega_conv = await knex.raw(`
+    SELECT 
+      NVL(SUBSTR('${insurance_lid}',INSTR('${insurance_lid}', '-') + 1, INSTR('${insurance_lid}', '-')+20000), ${insurance_lid}) cd_con_pla,
+      NVL(SUBSTR('${insurance_lid}',0, INSTR('${insurance_lid}', '-')-1), '${insurance_lid}') cd_convenio
+    FROM dual
+
+  `);
+
     const verifica_horario = await knex.raw(`
-    SELECT DISTINCT
-    to_char(it_agenda_central.hr_agenda,'dd/mm/yyyy') dt_agenda,
-    To_Char(it_agenda_central.hr_agenda,'HH24:MI:SS') hr_inicio,
-    (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi')) hr_fim,
-    agenda_central.cd_unidade_atendimento,
-    agenda_central.cd_prestador,
-    recurso_central.cd_recurso_central,
-    agenda_central.cd_agenda_central
-   FROM AGENDA_CENTRAL
-   LEFT JOIN dbamv.recurso_central ON recurso_central.cd_recurso_central = AGENDA_CENTRAL.cd_recurso_central
-   LEFT JOIN dbamv.IT_AGENDA_CENTRAL ON  dbamv.IT_AGENDA_CENTRAL.cd_agenda_central = AGENDA_CENTRAL.cd_agenda_central
-   LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.cd_prestador = AGENDA_CENTRAL.cd_prestador
-   LEFT JOIN DBAMV.ATENDIME ON ATENDIME.cd_prestador = PRESTADOR.cd_prestador
-   LEFT JOIN DBAMV.CONVENIO ON CONVENIO.cd_convenio = ATENDIME.cd_convenio
-   WHERE To_Char(it_agenda_central.hr_agenda,'DD/MM/YYYY') = '${availability.date}'
-   AND To_Char(it_agenda_central.hr_agenda,'HH24:MI') = '${availability.start_time}'
-   AND prestador.cd_prestador in (${availability.resource_lid})
-   AND agenda_central.cd_unidade_atendimento in (${availability.location_lid})
-   AND it_agenda_central.cd_paciente IS NULL
-   AND it_agenda_central.nm_paciente IS NULL
-   order by 1 DESC                    
+  SELECT * 
+    FROM IT_AGENDA_CENTRAL WHERE CD_IT_AGENDA_CENTRAL = ${availability.availability_lid};
+  WHERE it_agenda_central.cd_paciente IS NULL
+  AND it_agenda_central.nm_paciente IS NULL
     `);
 
     if (!verifica_horario || verifica_horario.length === 0) {
