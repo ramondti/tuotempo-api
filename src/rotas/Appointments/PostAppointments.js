@@ -11,8 +11,9 @@ export async function post_appointments(
 
     const verifica_horario = await knex.raw(`
   SELECT * 
-    FROM IT_AGENDA_CENTRAL WHERE CD_IT_AGENDA_CENTRAL = ${availability.availability_lid}
-  WHERE it_agenda_central.cd_paciente IS NULL
+    FROM IT_AGENDA_CENTRAL 
+  WHERE CD_IT_AGENDA_CENTRAL = ${availability.availability_lid}
+  AND it_agenda_central.cd_paciente IS NULL
   AND it_agenda_central.nm_paciente IS NULL
     `);
 
