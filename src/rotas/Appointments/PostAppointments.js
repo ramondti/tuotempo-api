@@ -56,6 +56,8 @@ export async function post_appointments(
       }
     } 
 
+    
+
 const verifica_user  = null;
 
 if (user.user_lid === null && user.user_lid === '' ) {
@@ -71,6 +73,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
   }
 
 
+  console.log('Antes dos insert')
 
     if (!verifica_user || verifica_user.length !== 0) {
 
