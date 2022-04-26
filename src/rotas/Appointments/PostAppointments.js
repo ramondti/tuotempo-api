@@ -73,7 +73,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
 
       const seq_paciente = verifica_user[0].CD_PACIENTE;
 
-      seq_agenda = await knex.raw(
+      const seq_agenda = await knex.raw(
         `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
       );
       await knex.raw(`
