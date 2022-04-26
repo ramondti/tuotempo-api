@@ -33,7 +33,11 @@ export async function post_appointments(
         SELECT *
           FROM dbamv.paciente
         WHERE CD_PACIENTE = ${user.user_lid} 
-    `);
+                                  `);
+
+      console.log('DENTRO DO IF')
+      console.log(verifica.length)
+
       if (!verifica || verifica.length === 0){
         return {
           result: 'OK',
@@ -46,10 +50,9 @@ export async function post_appointments(
 
     console.log('Passou if do user_lid')    
 
-const verifica_user  = null;
+var verifica_user
 
 if (user.user_lid === null && user.user_lid === '' ) {
-
    verifica_user = 0;
 }
   else {
