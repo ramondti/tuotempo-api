@@ -39,23 +39,47 @@ export async function post_appointments(
       };
     }
 
-if (user.user_lid != null && user.user_lid != ""){
-    const verifica = await knex.raw(`
-    SELECT *
-     FROM dbamv.paciente
-    WHERE CD_PACIENTE = ${user.user_lid} 
+
+
+    if (user.user_lid != null && user.user_lid != '') {
+      const verifica = await knex.raw(`
+        SELECT *
+          FROM dbamv.paciente
+        WHERE CD_PACIENTE = ${user.user_lid} 
+    `);
+      if (!verifica || verifica.length === 0){
+        return {
+          result: 'OK',
+          debug_msg: 'USER_LID NÃO EXISTE!',
+        };
+
+      }
+    } 
+
+const verifica_user  = null;
+
+if (user.user_lid === null && user.user_lid === '' ) {
+
+   verifica_user = 0;
+}
+  else {
+   verifica_user = await knex.raw(`
+        SELECT *
+          FROM dbamv.paciente
+        WHERE CD_PACIENTE = ${user.user_lid}
     `);
   }
 
 
 
-    if (!verifica || verifica.length !== 0) {
-      user_lid_existe = verifica[0].CD_PACIENTE;
+    if (!verifica_user || verifica_user.length !== 0) {
 
-      const seq_paciente = verifica[0].CD_PACIENTE;
+      user_lid_existe = verifica_user[0].CD_PACIENTE;
+
+      const seq_paciente = verifica_user[0].CD_PACIENTE;
 
       seq_agenda = await knex.raw(
-      `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
+        `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
       );
       await knex.raw(`
       INSERT INTO tuotempo.tbl_dti_agenda (
@@ -122,8 +146,6 @@ if (user.user_lid != null && user.user_lid != ""){
     } else {
       const seq_paciente = await knex.raw(
         `select tuotempo.seq_dti_paciente.nextval seq_dti from dual`,
-
-        
       );
       await knex.raw(`
       INSERT INTO tuotempo.tbl_dti_paciente(
@@ -185,14 +207,12 @@ if (user.user_lid != null && user.user_lid != ""){
         `,
       );
 
-
       const verifica_paci = await knex.raw(`
       SELECT *
        FROM tuotempo.tbl_dti_paciente
       WHERE cd_dti_paciente = ${seq_paciente[0].SEQ_DTI}
       and tp_status = 'T'
       `);
-
 
       if (!verifica_paci || verifica_paci.length === 0) {
         return {
@@ -202,7 +222,6 @@ if (user.user_lid != null && user.user_lid != ""){
       }
 
       user_lid_existe = verifica_paci[0].CD_PACIENTE;
-
 
       seq_agenda = await knex.raw(
         `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
