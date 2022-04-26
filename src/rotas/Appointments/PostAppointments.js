@@ -9,15 +9,6 @@ export async function post_appointments(
 ) {
   try {
 
-    
-    const pega_conv = await knex.raw(`
-    SELECT 
-      NVL(SUBSTR('${insurance_lid}',INSTR('${insurance_lid}', '-') + 1, INSTR('${insurance_lid}', '-')+20000), ${insurance_lid}) cd_con_pla,
-      NVL(SUBSTR('${insurance_lid}',0, INSTR('${insurance_lid}', '-')-1), '${insurance_lid}') cd_convenio
-    FROM dual
-
-  `);
-
     const verifica_horario = await knex.raw(`
   SELECT * 
     FROM IT_AGENDA_CENTRAL WHERE CD_IT_AGENDA_CENTRAL = ${availability.availability_lid};
