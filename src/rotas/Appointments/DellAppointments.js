@@ -80,7 +80,7 @@ export async function del_appointments(app_lid) {
         insurance_lid: result[0].CD_CONVENIO,
       },
       user: {
-        user_lid: paciente_del[0].CD_PACIENTE_INTEGRA,
+        user_lid: paciente_del[0].CD_PACIENTE,
         id_number: {
           number: null,
           type: null,

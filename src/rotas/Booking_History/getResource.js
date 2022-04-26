@@ -27,10 +27,7 @@ prestador.cd_prestador                                                          
 IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
 IT_AGENDA_CENTRAL.cd_convenio                                                                         AS insurance_lid,
 NULL                                                                                                  AS PRICE,
-        (SELECT cd_depara_MV 
-          FROM tuotempo.depara 
-        WHERE cd_depara_mv = paciente.cd_paciente
-		      and tp_depara = 'PACIENTE')                                                                 AS user_lid,                                                                  
+PACIENTE.cd_paciente                                                                                  AS user_lid,                                                                 
 NR_CPF                                                                                                AS ID_NUMBER,
 1                                                                                                     AS ID_TYPE,
 NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 
@@ -55,8 +52,11 @@ AND IT_AGENDA_CENTRAL.cd_it_agenda_central = (SELECT cd_depara_mv
 AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') BETWEEN '${start_date}' AND '${end_date}'
 
     `);
-
-    console.log(result)
+    console.log('resource_lid');
+    console.log(resource_lid);
+    console.log(start_date);
+    console.log(end_date);
+    
 
     if (!result || result.length === 0) {
       return {

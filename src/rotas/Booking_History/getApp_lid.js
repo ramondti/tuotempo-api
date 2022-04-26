@@ -21,10 +21,7 @@ export async function get_app_lid(app_lid) {
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
     IT_AGENDA_CENTRAL.cd_convenio                                                                         AS insurance_lid,
     NULL                                                                                                  AS PRICE,
-        (SELECT cd_depara_integra 
-          FROM tuotempo.depara 
-        WHERE cd_depara_mv = paciente.cd_paciente
-        and tp_depara = 'PACIENTE')                                                                       AS user_lid,
+    PACIENTE.cd_paciente                                                                                  AS user_lid,
     paciente.nr_cpf                                                                                       AS ID_NUMBER,
     1                                                                                                     AS ID_TYPE,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 

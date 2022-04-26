@@ -39,27 +39,23 @@ export async function post_appointments(
       };
     }
 
+if (user.user_lid != null && user.user_lid != ""){
     const verifica = await knex.raw(`
     SELECT *
-     FROM tuotempo.tbl_dti_paciente
-    WHERE cd_paciente_integra = ${user.user_lid}
-    and cd_paciente is not null
-    and tp_status = 'T'
+     FROM dbamv.paciente
+    WHERE CD_PACIENTE = ${user.user_lid} 
     `);
+  }
 
-    var seq_agenda;
 
-    var user_lid_existe = null;
 
     if (!verifica || verifica.length !== 0) {
-      user_lid_existe = 'USER_LID Já existe';
+      user_lid_existe = verifica[0].CD_PACIENTE;
 
-      const seq_paciente = verifica[0].CD_DTI_PACIENTE;
-
-      console.log(verifica[0].CD_DTI_PACIENTE);
+      const seq_paciente = verifica[0].CD_PACIENTE;
 
       seq_agenda = await knex.raw(
-        `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
+      `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
       );
       await knex.raw(`
       INSERT INTO tuotempo.tbl_dti_agenda (
@@ -124,9 +120,10 @@ export async function post_appointments(
         };
       }
     } else {
-      user_lid_existe = user.user_lid;
       const seq_paciente = await knex.raw(
         `select tuotempo.seq_dti_paciente.nextval seq_dti from dual`,
+
+        
       );
       await knex.raw(`
       INSERT INTO tuotempo.tbl_dti_paciente(
@@ -196,12 +193,15 @@ export async function post_appointments(
       and tp_status = 'T'
       `);
 
+
       if (!verifica_paci || verifica_paci.length === 0) {
         return {
           result: 'ERRO',
           debug_msg: 'Não foi possivel Registrar o paciente!',
         };
       }
+
+      user_lid_existe = verifica_paci[0].CD_PACIENTE;
 
 
       seq_agenda = await knex.raw(
