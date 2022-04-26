@@ -25,6 +25,8 @@ export async function post_appointments(
     }
 
 
+    console.log('Validou horario')
+    console.log(user.user_lid)
 
     if (user.user_lid != null && user.user_lid != '') {
       const verifica = await knex.raw(`
@@ -41,7 +43,8 @@ export async function post_appointments(
       }
     } 
 
-    
+
+    console.log('Passou if do user_lid')    
 
 const verifica_user  = null;
 
