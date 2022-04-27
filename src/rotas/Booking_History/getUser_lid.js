@@ -6,56 +6,45 @@ export async function get_user_lid(user_lid,start_date,end_date) {
   
 
     const result = await knex.raw(`
-
     SELECT 
-    (SELECT cd_depara_integra 
-      FROM tuotempo.depara 
-      WHERE cd_depara_mv = it_agenda_central.cd_it_agenda_central 
-      AND tp_depara = 'AGENDA')                                                                       AS app_lid,
-
-NULL                                                                                                  AS created,
-NULL                                                                                                  AS cancelled,
-To_Char(IT_AGENDA_CENTRAL.dt_gravacao,'dd/mm/yyyy hh24:mi')  		                                      AS modified,
-IT_AGENDA_CENTRAL.DS_OBSERVACAO                                                                       AS status,
-To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS checkedin,
-To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
-To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_fim,'hh24:mi:ss')      AS end_visit,
-IT_AGENDA_CENTRAL.CD_IT_AGENDA_CENTRAL                                                                AS availability_lid, 
-agenda_central.dt_agenda                                                                              AS "date",
-IT_AGENDA_CENTRAL.hr_agenda                                                                           AS start_time,
-(to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi'))              AS end_time,
-agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
-prestador.cd_prestador                                                                                AS resurce_lid,
-IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-IT_AGENDA_CENTRAL.cd_convenio                                                                         AS insurance_lid,
-NULL                                                                                                  AS PRICE,
-PACIENTE.cd_paciente                                                                                  AS user_lid,
-paciente.nr_cpf                                                                                       AS ID_NUMBER,
-1                                                                                                     AS ID_TYPE,
-NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 
-INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,
-NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
-INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS second_name,
-PACIENTE.dt_nascimento                                                                                AS birthdate,
-' '                                                                                                   AS third_name,
-PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
-PACIENTE.tp_sexo                                                                                      AS GENDER,
-paciente.email                                                                                        AS email,
-paciente.nr_celular                                                                                   AS mobile
-FROM DBAMV.AGENDA_CENTRAL
-LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
-LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
-LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
-WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = (SELECT cd_depara_mv 
-                                            FROM tuotempo.depara 
-                                            WHERE  cd_depara_mv = IT_AGENDA_CENTRAL.cd_it_agenda_central
-                                            AND tp_depara = 'AGENDA')
-
-AND PACIENTE.CD_PACIENTE = ${user_lid}') 
-
-AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') 
-BETWEEN 	'${start_date}' 
-AND       '${end_date}'
+    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS app_lid,
+    NULL                                                                                                  AS created,
+    NULL                                                                                                  AS cancelled,
+    To_Char(IT_AGENDA_CENTRAL.dt_gravacao,'dd/mm/yyyy hh24:mi')  		                                      AS modified,
+    IT_AGENDA_CENTRAL.DS_OBSERVACAO                                                                       AS status,
+    To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS checkedin,
+    To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
+    To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_fim,'hh24:mi:ss')      AS end_visit,
+    IT_AGENDA_CENTRAL.CD_IT_AGENDA_CENTRAL                                                                AS availability_lid, 
+    agenda_central.dt_agenda                                                                              AS "date",
+    IT_AGENDA_CENTRAL.hr_agenda                                                                           AS start_time,
+    (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi'))              AS end_time,
+    agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
+    prestador.cd_prestador                                                                                AS resurce_lid,
+    IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
+    IT_AGENDA_CENTRAL.cd_convenio                                                                         AS insurance_lid,
+    NULL                                                                                                  AS PRICE,
+    PACIENTE.cd_paciente                                                                                  AS user_lid,
+    paciente.nr_cpf                                                                                       AS ID_NUMBER,
+    1                                                                                                     AS ID_TYPE,
+    NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 
+    INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,
+    NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
+    INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS second_name,
+    PACIENTE.dt_nascimento                                                                                AS birthdate,
+    ' '                                                                                                   AS third_name,
+    PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
+    PACIENTE.tp_sexo                                                                                      AS GENDER,
+    paciente.email                                                                                        AS email,
+    paciente.nr_celular                                                                                   AS mobile
+    FROM DBAMV.AGENDA_CENTRAL
+    LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
+    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
+    LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
+    WHERE IT_AGENDA_CENTRAL.CD_PACIENTE = ${user_lid}
+    AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') 
+    BETWEEN 	'${start_date}' 
+    AND       '${end_date}'
 
     `);
 

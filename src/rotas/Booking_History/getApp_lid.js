@@ -5,6 +5,7 @@ export async function get_app_lid(app_lid) {
   
     const result = await knex.raw(`
     SELECT 
+    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS applidd,
     null                                                                                                  AS created,
     null                                                                                                  AS cancelled,
     null								                                                                                  AS modified,
@@ -38,10 +39,8 @@ export async function get_app_lid(app_lid) {
     LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
     LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
-    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = (  SELECT cd_depara_mv 
-                                                        FROM tuotempo.depara 
-                                                      WHERE cd_depara_integra = ${app_lid}
-                                                      AND tp_depara = 'AGENDA')
+    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = '${app_lid}'
+
     `);
 
     console.log(result)
