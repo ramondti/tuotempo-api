@@ -110,7 +110,8 @@ app.put("/appointments/:app_lid", async (req, res) => {
 
 
 app.get("/appointments/resources/:resource_lid",async (req, res) => {
- const json = await get_resource(req.params.resource_lid,req.params.start_date,req.params.end_date);
+const {end_date,start_date} = req.query; 
+ const json = await get_resource(req.params.resource_lid,start_date,end_date);
  return res.json(json);
 });
 
