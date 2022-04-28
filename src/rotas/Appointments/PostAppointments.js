@@ -228,6 +228,8 @@ if (user.user_lid === null && user.user_lid === '' ) {
         `select tuotempo.seq_dti_agenda.nextval SEQ_DTI_AGENDA from dual`,
       );
 
+      console.log('Passou para o agendamento')
+
       await knex.raw(`
       INSERT INTO tuotempo.tbl_dti_agenda (
         cd_dti_agenda,
@@ -284,13 +286,11 @@ if (user.user_lid === null && user.user_lid === '' ) {
       WHERE cd_dti_agenda = ${seq_agenda[0].SEQ_DTI_AGENDA}
       and tp_status = 'T'
       `);
-      
-
 
       if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
-          debug_msg: 'Não foi possivel Registrar o paciente!',
+          debug_msg: 'Não foi possivel Registrar o Agendamento!',
         };
       }
     }
