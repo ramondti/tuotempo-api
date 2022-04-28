@@ -48,9 +48,7 @@ export async function get_noshow(start_date, end_date) {
      PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
      PACIENTE.tp_sexo                                                                                      AS GENDER,
      paciente.email                                                                                        AS email,
-     paciente.nr_celular                                                                                   AS mobile,
-     paciente.dt_nascimento
-     
+     paciente.nr_celular                                                                                   AS mobile
      FROM DBAMV.AGENDA_CENTRAL
      LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
      LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
@@ -100,7 +98,7 @@ export async function get_noshow(start_date, end_date) {
      PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
      PACIENTE.tp_sexo                                                                                      AS GENDER,
      paciente.email                                                                                        AS email,
-     paciente.nr_celular                                                                                   AS mobile,
+     paciente.nr_celular                                                                                   AS mobile
      FROM DBAMV.AGENDA_CENTRAL
      LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
      LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
