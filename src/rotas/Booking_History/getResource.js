@@ -11,7 +11,15 @@ export async function get_resource(resource_lid,start_date,end_date) {
     null                                                                                                  AS created,
     null                                                                                                  AS cancelled,
     null								                                                                                  AS modified,
-    IT_AGENDA_CENTRAL.DS_OBSERVACAO                                                                       AS status,
+    (CASE WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                       'Aprovado' THEN 0  
+          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                       'Pendente' THEN 1 
+          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO                           IS NULL  THEN 0
+          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                     'Confirmado' THEN 2
+          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                      'Cancelado' THEN 3
+          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO = 'Cancelado pelo centro/hospital' THEN 4 
+          WHEN IT_AGENDA_CENTRAL.SN_ATENDIDO =                                'S' THEN 5
+          WHEN IT_AGENDA_CENTRAL.SN_ATENDIDO =                                'N' THEN 6 
+                                                                                  ELSE 7 END)             AS status,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS checkedin,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_fim,'hh24:mi:ss')      AS end_visit,
@@ -41,9 +49,8 @@ export async function get_resource(resource_lid,start_date,end_date) {
     LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
     LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
-    WHERE AGENDA_CENTRAL.cd_prestador = ${resource_lid}    
-    AND To_Char(AGENDA_CENTRAL.DT_AGENDA,'DD/MM/YYYY') BETWEEN '${start_date}' AND '${end_date}'
-
+    WHERE AGENDA_CENTRAL.cd_prestador = ${resource_lid} 
+    AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY')'
     `);
     console.log('resource_lid');
     console.log(resource_lid);
