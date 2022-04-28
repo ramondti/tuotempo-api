@@ -40,7 +40,7 @@ export async function get_user_lid(user_lid,start_date,end_date) {
     INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
     INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS second_name,
-    PACIENTE.dt_nascimento                                                                                AS birthdate,
+    to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
     ' '                                                                                                   AS third_name,
     PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
     PACIENTE.tp_sexo                                                                                      AS GENDER,

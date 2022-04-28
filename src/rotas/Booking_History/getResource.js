@@ -32,12 +32,16 @@ To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                  
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
     (CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
      NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                              AS insurance_lid,
+
     NULL                                                                                                  AS PRICE,
     PACIENTE.cd_paciente                                                                                  AS user_lid,                                                                 
     NR_CPF                                                                                                AS ID_NUMBER,
     1                                                                                                     AS ID_TYPE,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 
-    INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,     
+    INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,
+    NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
+    INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS second_name,
+    to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,    
     paciente.email                                                                                        AS email,
     paciente.nr_celular                                                                                   AS mobile
     FROM DBAMV.AGENDA_CENTRAL

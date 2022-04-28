@@ -44,11 +44,12 @@ export async function get_noshow(start_date, end_date) {
      INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS NM_PACIENTEE,
      NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
      INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS NM_SOBRENOME,
-     PACIENTE.dt_nascimento                                                                                AS birthdate,
+     to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
      PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
      PACIENTE.tp_sexo                                                                                      AS GENDER,
      paciente.email                                                                                        AS email,
-     paciente.nr_celular                                                                                   AS mobile
+     paciente.nr_celular                                                                                   AS mobile,
+     paciente.dt_nascimento
      
      FROM DBAMV.AGENDA_CENTRAL
      LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
@@ -56,6 +57,7 @@ export async function get_noshow(start_date, end_date) {
      LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
      LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
      LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
+    
      WHERE sn_atendido = 'N'
     `);
     } else {
@@ -94,18 +96,17 @@ export async function get_noshow(start_date, end_date) {
      INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS NM_PACIENTEE,
      NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
      INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS NM_SOBRENOME,
-     PACIENTE.dt_nascimento                                                                                AS birthdate,
+     to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
      PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
      PACIENTE.tp_sexo                                                                                      AS GENDER,
      paciente.email                                                                                        AS email,
-     paciente.nr_celular                                                                                   AS mobile
-     
+     paciente.nr_celular                                                                                   AS mobile,
      FROM DBAMV.AGENDA_CENTRAL
      LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
      LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
      LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
      LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
-     LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
+     LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio     
      WHERE sn_atendido = 'N'
      AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY') 
        `);
