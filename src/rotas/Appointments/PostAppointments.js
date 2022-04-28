@@ -212,6 +212,9 @@ if (user.user_lid === null && user.user_lid === '' ) {
       and tp_status = 'T'
       `);
 
+      console.log('Seq da paciente')
+      console.log (seq_paciente[0].SEQ_DTI)
+
       if (!verifica_paci || verifica_paci.length === 0) {
         return {
           result: 'ERRO',
