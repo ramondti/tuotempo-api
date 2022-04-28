@@ -51,6 +51,7 @@ To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                  
     LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
     WHERE AGENDA_CENTRAL.cd_prestador = ${resource_lid} 
     AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY')
+    AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
     `);
     console.log('resource_lid');
     console.log(resource_lid);

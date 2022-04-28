@@ -50,7 +50,7 @@ export async function get_app_lid(app_lid) {
     LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
     LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
     WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = '${app_lid}'
-
+    AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
     `);
 
     console.log(result)

@@ -53,7 +53,7 @@ export async function get_user_lid(user_lid,start_date,end_date) {
     LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
     WHERE IT_AGENDA_CENTRAL.CD_PACIENTE = ${user_lid}
     AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY')
-
+    AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
     `);
 
     console.log(result)

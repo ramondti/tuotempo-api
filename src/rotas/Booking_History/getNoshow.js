@@ -48,7 +48,7 @@ export async function get_noshow(start_date, end_date) {
      LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
      WHERE sn_atendido = 'N'
      AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
-
+     AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date(SYSDATE-1,'DD/MM/YYYY') AND To_Date(SYSDATE,'DD/MM/YYYY')
     `);
     } else {
       result01 = await knex.raw(`
