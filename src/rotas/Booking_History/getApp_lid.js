@@ -6,7 +6,7 @@ export async function get_app_lid(app_lid) {
     const result = await knex.raw(`
 
     SELECT 
-    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS applidd,
+    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS app_lidd,
     null                                                                                                  AS created,
     null                                                                                                  AS cancelled,
     null								                                                                                  AS modified,
@@ -28,8 +28,8 @@ export async function get_app_lid(app_lid) {
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
     prestador.cd_prestador                                                                                AS resurce_lid,
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-    (CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
-     NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                              AS insurance_lid,
+    (CASE WHEN (IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla) = '-' THEN
+    NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
     NULL                                                                                                  AS PRICE,
     PACIENTE.cd_paciente                                                                                  AS user_lid,
     paciente.nr_cpf                                                                                       AS ID_NUMBER,
@@ -49,7 +49,6 @@ export async function get_app_lid(app_lid) {
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
     LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
     LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
-    LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
     WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = '${app_lid}'
 
     `);

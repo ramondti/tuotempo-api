@@ -9,7 +9,7 @@ export async function get_noshow(start_date, end_date) {
     var result01
 
     if (start_date === undefined && end_date === undefined) {
-      result01 = await knex.raw(`
+   result01 = await knex.raw(`
      SELECT                                                                                              
      it_agenda_central.cd_it_agenda_central                                                                AS app_lid,
      null                                                                                                  AS created,
@@ -33,8 +33,8 @@ export async function get_noshow(start_date, end_date) {
      agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
      prestador.cd_prestador                                                                                AS resurce_lid,
      IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-    (CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
-         NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                           AS insurance_lid,
+     (CASE WHEN (IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla) = '-' THEN
+     NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
      NULL                                                                                                  AS PRICE,
      PACIENTE.cd_paciente                                                                                  AS user_lid,
      NR_CPF                                                                                                AS ID_NUMBER,
@@ -54,7 +54,7 @@ export async function get_noshow(start_date, end_date) {
      LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
      LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
      LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
-    
+     IT_AGENDA_CENTRAL.NM_PACIENTE is not null
      WHERE sn_atendido = 'N'
     `);
     } else {
@@ -82,8 +82,8 @@ export async function get_noshow(start_date, end_date) {
      agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
      prestador.cd_prestador                                                                                AS resurce_lid,
      IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-    (CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
-         NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                           AS insurance_lid,
+     (CASE WHEN (IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla) = '-' THEN
+     NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
      NULL                                                                                                  AS PRICE,
      PACIENTE.cd_paciente                                                                                  AS user_lid,
      NR_CPF                                                                                                AS ID_NUMBER,

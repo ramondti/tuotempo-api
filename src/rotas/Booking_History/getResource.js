@@ -29,8 +29,8 @@ To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                  
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
     prestador.cd_prestador                                                                                AS resurce_lid,
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-    (CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
-     NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                              AS insurance_lid,
+    (CASE WHEN (IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla) = '-' THEN
+    NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
 
     NULL                                                                                                  AS PRICE,
     PACIENTE.cd_paciente                                                                                  AS user_lid,                                                                 
