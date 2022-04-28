@@ -121,46 +121,45 @@ export async function get_noshow(start_date, end_date) {
     const dados = [];
     result.forEach(element => {
       dados.push({
-        app_lid: element.APP_LID,
-        created: element.CREATED,
-        cancelled: element.CANCELLED,
-        modified: element.MODIFIED,
-        status: element.STATUS,
-        checkedin: null,
-        start_visit: element.START_VISIT,
-        end_visit: element.END_VISIT,
-        availability: {
-          availability_lid: element.AVAILABILITY_LID,
-          date: element.DATA,
-          start_time: element.START_TIME,
-          end_time: element.END_TIME,
-          location_lid: element.LOCATION_LID,
-          resource_lid: element.RESOURCE_LID,
-          activity_lid: element.ACTIVITY_LID,
-          insurance_lid: element.INSURANCE_LID,
-          price: null,
+        "app_lid": element.APP_LID,
+        "created": element.CREATED,
+        "cancelled": element.CANCELLED,
+        "modified": element.MODIFIED,
+        "status": element.STATUS,
+        "checkedin": null,
+        "start_visit": element.START_VISIT,
+        "end_visit": element.END_VISIT,
+        "availability": {
+            "availability_lid": element.AVAILABILITY_LID,
+            "date": element.DATA,
+            "start_time": element.START_TIME,
+            "end_time": element.END_TIME,
+            "location_lid": element.LOCATION_LID,
+            "resource_lid": element.RESOURCE_LID,
+            "activity_lid": element.ACTIVITY_LID,
+            "insurance_lid": element.INSURANCE_LID,
+            "price": null
         },
-        user: {
-          // *Mandatory* Patient
-          user_lid: element.USER_LID,
-          id_number: {
-            number: element.ID_NUMBER,
-            type: 1,
-          },
-          first_name: element.FIRST_NAME, 
-          second_name: element.SECOND_NAME, 
-          third_name: null, 
-          birthdate: element.BIRTHDATE, 
-          place_of_birth: null, 
-          gender: element.GENDER, // Gender (M, F) –  *Mandatory* Only if using tuOtempO SURVEY
-          contact: {
-            email: element.EMAIL, 
-            landline: null,
-            mobile: element.MOBILE, 
-            work: null,
-          },
-          address: {},
-        },
+        "user": { // *Mandatory* Patient
+            "user_lid": element.USER_LID,
+            "id_number": {
+                "number": element.ID_NUMBER,
+                "type": 1
+            },
+            "first_name": element.FIRST_NAME, // *Mandatory*  First Name
+            "second_name": element.SECOND_NAME, // *Mandatory*  Second Name
+            "third_name": null, // Date of Birth (format: dd/mm/yyyy) 
+            "birthdate": element.BIRTHDATE, // *Mandatory*
+            "place_of_birth": null, // Istat luogo di. nascita
+            "gender": element.GENDER, // Gender (M, F) –  *Mandatory* Only if using tuOtempO SURVEY
+            "contact": {
+                "email":element.EMAIL, // *Mandatory* Mobile number
+                "landline": null,
+                "mobile": element.MOBILE, // *Mandatory* Email
+                "work": null
+            },
+            "address": {}
+        }
       });
     });
 
