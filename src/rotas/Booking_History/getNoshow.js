@@ -4,6 +4,8 @@ export async function get_noshow(start_date, end_date) {
   try {
 
 
+    console.log('Entrou noshow: ' + start_date + ' ' + end_date);
+
     var result
 
     if (start_date === undefined && end_date === undefined) {
