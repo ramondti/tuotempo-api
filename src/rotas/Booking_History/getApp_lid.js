@@ -6,7 +6,7 @@ export async function get_app_lid(app_lid) {
     const result = await knex.raw(`
 
     SELECT 
-    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS app_lidd,
+    IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS APP_LID,
     null                                                                                                  AS created,
     null                                                                                                  AS cancelled,
     null								                                                                                  AS modified,
