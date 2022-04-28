@@ -116,9 +116,15 @@ const {end_date,start_date} = req.query;
 });
 
 
+app.get("/appointments/noshow",async (req, res) => {
+  const {start_date,end_date} = req.query;
+  const json = await get_noshow(start_date,end_date);
+  return res.json(json);
+});
+
+
 app.get("/appointments/:app_lid",async (req, res) => {
   const json = await get_app_lid(req.params.app_lid);
-  console.log('Entrou aq')
   return res.json(json);
 });
 
@@ -129,13 +135,6 @@ app.get("/appointments/users/:user_lid",async (req, res) => {
   return res.json(json);
 });
 
-app.get("/appointments/noshow",async (req, res) => {
-  const {start_date,end_date} = req.query;
-  console.log('noshow')
-  console.log('Entrou noshow: ' + start_date + ' ' + end_date);
-  const json = await get_noshow(start_date,end_date);
-  return res.json(json);
-});
 
 
 
