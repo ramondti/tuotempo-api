@@ -27,7 +27,7 @@ export async function get_resource(resource_lid,start_date,end_date) {
 To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                                            AS start_time,
     (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440,'hh24:mi'))               AS end_time,
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
-    prestador.cd_prestador                                                                                AS resurce_lid,
+    prestador.cd_prestador                                                                                AS RESOURCE_LID,
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
     (CASE WHEN (IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla) = '-' THEN
     NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
