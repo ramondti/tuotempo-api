@@ -24,7 +24,6 @@ export async function get_resource(resource_lid,start_date,end_date) {
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_fim,'hh24:mi:ss')      AS end_visit,
     IT_AGENDA_CENTRAL.CD_IT_AGENDA_CENTRAL                                                                AS availability_lid, 
-    agenda_central.dt_agenda                                                                              AS "date",
 To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                                            AS start_time,
     (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440,'hh24:mi'))               AS end_time,
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
