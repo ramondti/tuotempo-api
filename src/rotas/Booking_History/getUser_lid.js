@@ -10,7 +10,7 @@ export async function get_user_lid(user_lid,start_date,end_date) {
     IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS app_lid,
     NULL                                                                                                  AS created,
     NULL                                                                                                  AS cancelled,
-    NULL 		                                                                                              AS modified,
+    To_Char(IT_AGENDA_CENTRAL.dt_gravacao,'dd/mm/yyyy hh24:mi')  		                                      AS modified,
     (CASE WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                       'Aprovado' THEN 0  
           WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                       'Pendente' THEN 1 
           WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO                           IS NULL  THEN 0
@@ -30,7 +30,8 @@ export async function get_user_lid(user_lid,start_date,end_date) {
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
     prestador.cd_prestador                                                                                AS resurce_lid,
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-    convenio.cd_convenio || '-' || con_pla.cd_con_pla                                                     AS insurance_lid,
+(CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
+     NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                              AS insurance_lid,
     NULL                                                                                                  AS PRICE,
     PACIENTE.cd_paciente                                                                                  AS user_lid,
     paciente.nr_cpf                                                                                       AS ID_NUMBER,

@@ -4,6 +4,7 @@ export async function get_app_lid(app_lid) {
   try {
   
     const result = await knex.raw(`
+
     SELECT 
     IT_AGENDA_CENTRAL.cd_it_agenda_central                                                                AS applidd,
     null                                                                                                  AS created,
@@ -28,7 +29,8 @@ export async function get_app_lid(app_lid) {
     agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
     prestador.cd_prestador                                                                                AS resurce_lid,
     IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
-    convenio.cd_convenio || '-' || con_pla.cd_con_pla                                                     AS insurance_lid,
+    (CASE WHEN (convenio.cd_convenio || '-' || con_pla.cd_con_pla) = '-' THEN
+     NULL ELSE convenio.cd_convenio || '-' || con_pla.cd_con_pla       END )                              AS insurance_lid,
     NULL                                                                                                  AS PRICE,
     PACIENTE.cd_paciente                                                                                  AS user_lid,
     paciente.nr_cpf                                                                                       AS ID_NUMBER,
