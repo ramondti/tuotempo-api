@@ -6,10 +6,10 @@ export async function get_noshow(start_date, end_date) {
 
     console.log('Entrou noshow: ' + start_date + ' ' + end_date);
 
-    var result
+    var result01
 
     if (start_date === undefined && end_date === undefined) {
-     result = await knex.raw(`
+      result01 = await knex.raw(`
      SELECT                                                                                              
      it_agenda_central.cd_it_agenda_central                                                                AS app_lid,
      null                                                                                                  AS created,
@@ -58,7 +58,7 @@ export async function get_noshow(start_date, end_date) {
      WHERE sn_atendido = 'N'
     `);
     } else {
-     result = await knex.raw(`
+      result01 = await knex.raw(`
      SELECT                                                                                              
      it_agenda_central.cd_it_agenda_central                                                                AS app_lid,
      null                                                                                                  AS created,
@@ -107,14 +107,14 @@ export async function get_noshow(start_date, end_date) {
      AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY') 
        `);
     }
-    if (!result || result.length === 0) {
+    if (!result01 || result01.length === 0) {
       return {
         result: 'OK',
       };
     }
 
     const dados = [];
-    result.forEach(element => {
+    result01.forEach(element => {
       dados.push({
         "app_lid": element.APP_LID,
         "created": element.CREATED,
