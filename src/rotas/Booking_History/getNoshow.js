@@ -56,8 +56,7 @@ export async function get_noshow(start_date, end_date) {
      LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
      LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
      LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
-     WHERE sn_atendido = 'N' 
-    AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY')
+     WHERE sn_atendido = 'N'
     `);
     } else {
      result = await knex.raw(`
@@ -107,7 +106,8 @@ export async function get_noshow(start_date, end_date) {
      LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
      LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
      LEFT JOIN DBAMV.con_pla ON con_pla.cd_convenio = convenio.cd_convenio 
-     WHERE sn_atendido = 'N' 
+     WHERE sn_atendido = 'N'
+     AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY') 
        `);
     }
 
