@@ -21,7 +21,7 @@ import {get_user_lid} from "./rotas/Booking_History/getUser_lid";
 import {get_noshow} from "./rotas/Booking_History/getNoshow"
 const app = express();
 
-app.use(express.json({ limit: '50mb' }))
+app.use(express.json({ limit: '300mb' }))
 
 app.get("/locations",async (req, res) => {
     const json = await get_location();
