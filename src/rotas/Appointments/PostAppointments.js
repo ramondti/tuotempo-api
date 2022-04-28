@@ -137,7 +137,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
       if (!verifica_agenda || verifica_agenda.length === 0) {
         return {
           result: 'ERRO',
-          debug_msg: 'Não foi possivel Registrar o paciente!',
+          debug_msg: 'Não foi possivel Registrar o Agendamento!',
         };
       }
     } else {
