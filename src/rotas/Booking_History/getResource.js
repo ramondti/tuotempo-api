@@ -97,7 +97,7 @@ To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                  
             "gender": element.GENDER, // Gender (M, F) –  *Mandatory* Only if using tuOtempO SURVEY
             "contact": {
                 "email":element.EMAIL, // *Mandatory* Mobile number
-                "landline": element.LANDLINE,
+                "landline": null,
                 "mobile": element.MOBILE, // *Mandatory* Email
                 "work": null
             },

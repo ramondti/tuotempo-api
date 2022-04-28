@@ -100,7 +100,7 @@ export async function get_app_lid(app_lid) {
             "gender": element.GENDER, // Gender (M, F) –  *Mandatory* Only if using tuOtempO SURVEY
             "contact": {
                 "email":element.EMAIL, // *Mandatory* Mobile number
-                "landline": element.LANDLINE,
+                "landline": null,
                 "mobile": element.MOBILE, // *Mandatory* Email
                 "work": null
             },

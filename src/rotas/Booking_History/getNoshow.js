@@ -148,16 +148,16 @@ export async function get_noshow(start_date, end_date) {
             number: element.ID_NUMBER,
             type: 1,
           },
-          first_name: element.FIRST_NAME, // *Mandatory*  First Name
-          second_name: element.SECOND_NAME, // *Mandatory*  Second Name
-          third_name: null, // Date of Birth (format: dd/mm/yyyy)
-          birthdate: element.BIRTHDATE, // *Mandatory*
-          place_of_birth: null, // Istat luogo di. nascita
+          first_name: element.FIRST_NAME, 
+          second_name: element.SECOND_NAME, 
+          third_name: null, 
+          birthdate: element.BIRTHDATE, 
+          place_of_birth: null, 
           gender: element.GENDER, // Gender (M, F) –  *Mandatory* Only if using tuOtempO SURVEY
           contact: {
-            email: element.EMAIL, // *Mandatory* Mobile number
-            landline: element.LANDLINE,
-            mobile: element.MOBILE, // *Mandatory* Email
+            email: element.EMAIL, 
+            landline: null,
+            mobile: element.MOBILE, 
             work: null,
           },
           address: {},
