@@ -107,9 +107,6 @@ export async function get_noshow(start_date, end_date) {
      AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY') 
        `);
     }
-
-    console.log(result);
-
     if (!result || result.length === 0) {
       return {
         result: 'OK',
@@ -160,6 +157,8 @@ export async function get_noshow(start_date, end_date) {
         }
       });
     });
+
+    console.log(dados);
 
     return { result: 'OK', return: dados };
   } catch (error) {
