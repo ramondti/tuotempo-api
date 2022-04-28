@@ -131,6 +131,8 @@ app.get("/appointments/users/:user_lid",async (req, res) => {
 
 app.get("/appointments/noshow",async (req, res) => {
   const {start_date,end_date} = req.query;
+  console.log('noshow')
+  console.log('Entrou noshow: ' + start_date + ' ' + end_date);
   const json = await get_noshow(start_date,end_date);
   return res.json(json);
 });
