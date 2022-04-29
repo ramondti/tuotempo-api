@@ -167,7 +167,9 @@ if (user.user_lid === null && user.user_lid === '' ) {
         nr_telefone,
         nr_celular, 
         ds_email,
-        cd_paciente_integra 
+        cd_paciente_integra,
+        tp_documento,
+        nr_documento 
       ) 
       VALUES (
         ${seq_paciente[0].SEQ_DTI},
@@ -190,7 +192,9 @@ if (user.user_lid === null && user.user_lid === '' ) {
         '${user.contact.landline}',
         '${user.contact.mobile}',
         '${user.contact.email}',
-        '${user.user_lid}'
+        '${user.user_lid}',
+        '${user.id_number.type},
+        '${user.id_number.number}
       )
       `);
 
