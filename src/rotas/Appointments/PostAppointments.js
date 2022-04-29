@@ -193,8 +193,8 @@ if (user.user_lid === null && user.user_lid === '' ) {
         '${user.contact.mobile}',
         '${user.contact.email}',
         '${user.user_lid}',
-        '${user.id_number.type},
-        '${user.id_number.number}
+        '${user.id_number.type}',
+        '${user.id_number.number}'
       )
       `);
 
