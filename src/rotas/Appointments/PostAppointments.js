@@ -299,7 +299,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
     }
 
 
-    //teste
+    //test
     const dados = {
       app_lid: seq_agenda[0].SEQ_DTI_AGENDA,
       availability: {
