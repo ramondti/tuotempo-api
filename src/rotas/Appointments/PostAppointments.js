@@ -212,12 +212,10 @@ if (user.user_lid === null && user.user_lid === "" ) {
       const verifica_paci = await knex.raw(`
       SELECT *
        FROM tuotempo.tbl_dti_paciente
-      WHERE cd_dti_paciente = ${seq_paciente[0].SEQ_DTI}
+      WHERE NR_DOCUMENTO = ${user.id_number.number}
       and tp_status = 'T'
+      and TP_DOCUMENTO = ${user.id_number.type}
       `);
-
-      console.log('Seq da paciente')
-      console.log (seq_paciente[0].SEQ_DTI)
 
       if (!verifica_paci || verifica_paci.length === 0) {
         return {
