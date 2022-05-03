@@ -327,7 +327,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
         contact: {
           email: user.contact.email,
           landline: user.contact.landline,
-          mobile: user.contact.mobile,
+          mobile: verifica_paci[0].NR_FONE,
           work: user.contact.work,
         },
         privacy: {
