@@ -52,7 +52,7 @@ export async function post_appointments(
 
 var verifica_user
 
-if (user.user_lid === null && user.user_lid === '' ) {
+if (user.user_lid === null && user.user_lid === "" ) {
    verifica_user = 0;
 }
   else {
