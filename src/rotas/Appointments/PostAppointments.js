@@ -211,11 +211,10 @@ if (user.user_lid === null && user.user_lid === "" ) {
 
       const verifica_paci = await knex.raw(`
       SELECT *
-       FROM tuotempo.tbl_dti_paciente
-      WHERE NR_DOCUMENTO = ${user.id_number.number}
-      and tp_status = 'T'
-      and TP_DOCUMENTO = ${user.id_number.type}
+       FROM dbamv.paciente
+      WHERE nr_cpf = '${user.id_number.number}'
       `);
+
 
       if (!verifica_paci || verifica_paci.length === 0) {
         return {
@@ -314,17 +313,17 @@ if (user.user_lid === null && user.user_lid === "" ) {
       user: {
         user_lid: user_lid_existe,
         id_number: {
-          number: user.id_number.number,
-          type: user.id_number.type,
+          number: verifica_paci[0].NR_CPF,
+          type: 1,
         },
-        first_name: user.first_name,
-        second_name: user.second_name,
+        first_name: verifica_paci[0].,
+        second_name: verifica_paci[0].,
         third_name: user.third_name,
         birthdate: user.birthdate,
         place_of_birth: user.place_of_birth,
         gender: user.gender,
         contact: {
-          email: user.contact.email,
+          email: verifica_paci[0].,
           landline: user.contact.landline,
           mobile: user.contact.mobile,
           work: user.contact.work,
