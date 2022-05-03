@@ -325,7 +325,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
         place_of_birth: user.place_of_birth,
         gender: user.gender,
         contact: {
-          email: user.contact.email,
+          email: verifica_paci[0].EMAIL,
           landline: user.contact.landline,
           mobile: verifica_paci[0].NR_FONE,
           work: user.contact.work,
