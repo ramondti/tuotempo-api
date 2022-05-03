@@ -10,15 +10,9 @@ export async function get_app_lid(app_lid) {
     null                                                                                                  AS created,
     null                                                                                                  AS cancelled,
     null								                                                                                  AS modified,
-    (CASE WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                       'Aprovado' THEN 0  
-          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                       'Pendente' THEN 1 
-          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO                           IS NULL  THEN 0
-          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                     'Confirmado' THEN 2
-          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO =                      'Cancelado' THEN 3
-          WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO = 'Cancelado pelo centro/hospital' THEN 4 
-          WHEN IT_AGENDA_CENTRAL.SN_ATENDIDO =                                'S' THEN 5
-          WHEN IT_AGENDA_CENTRAL.SN_ATENDIDO =                                'N' THEN 6 
-                                                                                  ELSE 7 END)             AS status,
+    (CASE WHEN IT_AGENDA_CENTRAL.DS_OBSERVACAO IS NULL 
+      AND DT_AGENDA < SYSDATE 
+      AND SN_ATENDIDO = 'S' THEN '5' ELSE IT_AGENDA_CENTRAL.DS_OBSERVACAO END)                            AS status,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS checkedin,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_inicio,'hh24:mi:ss')   AS start_visit,
     To_Char(agenda_central.dt_agenda,'dd/mm/yyyy')||' '||To_Char(agenda_central.hr_fim,'hh24:mi:ss')      AS end_visit,
