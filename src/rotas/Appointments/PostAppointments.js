@@ -212,7 +212,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
       const verifica_paci = await knex.raw(`
       SELECT *
        FROM dbamv.paciente
-      WHERE nr_cpf = ${user.id_number.number}
+      WHERE nr_cpf = '${user.id_number.number}'
       `);
 
       console.log('Seq da paciente')
