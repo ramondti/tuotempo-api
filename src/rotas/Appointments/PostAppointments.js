@@ -322,7 +322,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
     PACIENTE.tp_sexo                                                                                      AS GENDER,
     paciente.email                                                                                        AS email,
     paciente.nr_celular                                                                                   AS mobile,
-    paciente.nr_ddd_fone,
+    paciente.nr_ddd_fone as NR_FONE,
     paciente.nr_ddd_celular,
     paciente.nr_endereco AS street_number,
     paciente.ds_endereco AS street,
@@ -364,7 +364,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
         contact: {
           email: resultado[0].EMAIL,
           landline: user.contact.landline,
-          mobile: verifica_paci[0].NR_FONE,
+          mobile: resultado[0].MOBILE,
           work: user.contact.work,
         },
         privacy: {
