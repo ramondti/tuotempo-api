@@ -313,10 +313,10 @@ if (user.user_lid === null && user.user_lid === '' ) {
     PACIENTE.cd_paciente                                                                                  AS user_lid,
     paciente.nr_cpf                                                                                       AS ID_NUMBER,
     1                                                                                                     AS ID_TYPE,
-    NVL(SUBSTR(PACIENTE.NM_PACIENTE,0, 
-    INSTR(PACIENTE.NM_PACIENTE, ' ')-1), PACIENTE.NM_PACIENTE)                                            AS first_name,
-    NVL(SUBSTR(PACIENTE.NM_PACIENTE,INSTR(PACIENTE.NM_PACIENTE, ' ') + 1, 
-    INSTR(PACIENTE.NM_PACIENTE, ' ')+20000), PACIENTE.NM_PACIENTE)                                        AS second_name,
+    NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 
+      INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                        AS first_name,
+      NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
+      INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                    AS second_name,  
     to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
     PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
     PACIENTE.tp_sexo                                                                                      AS GENDER,
@@ -338,7 +338,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
 
 
     const dados = {
-      app_lid: seq_agenda[0].SEQ_DTI_AGENDA,
+      app_lid: availability.availability_lid,
       availability: {
         availability_lid: availability.availability_lid,
         date: resultado[0].DATA,
@@ -347,7 +347,7 @@ if (user.user_lid === null && user.user_lid === '' ) {
         location_lid: resultado[0].LOCATION_LID,
         resource_lid: resultado[0].RESOURCE_LID,
         activity_lid: availability.activity_lid,
-        insurance_lid: resultado[0].INSURANCE_LID,
+        insurance_lid: availability.insurance_lid,
       },
       user: {
         user_lid: user_lid_existe,

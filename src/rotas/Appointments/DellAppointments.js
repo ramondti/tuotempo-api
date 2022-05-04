@@ -2,61 +2,48 @@ import knex from '../../database/db';
 
 export async function del_appointments(app_lid) {
   try {
+
+    const verifica_horario = await knex.raw(`
+    SELECT * 
+      FROM IT_AGENDA_CENTRAL 
+    WHERE CD_IT_AGENDA_CENTRAL = ${app_lid}
+    AND it_agenda_central.nm_paciente IS NOT NULL
+    `);
+
+    if (!verifica_horario || verifica_horario.length === 0) {
+      return {
+        result: 'OK',
+        debug_msg: 'Horario esta disponivel!',
+      };
+    }
+
+    await knex.raw(
+      `
+      DECLARE 
+      P_OUT NUMBER ;
+      P_IN  NUMBER;
+      BEGIN prc_dti_exclui_agendamento(P_OUT,${app_lid}) ;
+      END; 
+      
+        `,
+    );
+
+
     const verifica = await knex.raw(`
     SELECT * 
-      FROM tuotempo.tbl_dti_agenda
-    WHERE cd_dti_agenda = ${app_lid} 
+      FROM IT_AGENDA_CENTRAL 
+    WHERE CD_IT_AGENDA_CENTRAL = ${app_lid}
+    AND it_agenda_central.nm_paciente IS NULL
     `);
+
 
     if (!verifica || verifica.length === 0) {
       return {
         result: 'OK',
-        debug_msg: 'USER_LID JA FOI CANCELADO OU NÃO EXISTE!',
+        debug_msg: 'Horario não foi cancelado',
       };
     }
 
-    const result = await knex.raw(`
-    SELECT *
-      FROM tuotempo.tbl_dti_agenda
-    WHERE cd_dti_agenda = ${app_lid}
-    `);
-
-    const paciente_del = await knex.raw(`
-    SELECT *
-      FROM tuotempo.tbl_dti_paciente
-    WHERE cd_registro_pai = ${result[0].CD_REGISTRO_FILHO}
-    `);
-
-    await knex.raw(` 
-    UPDATE tuotempo.tbl_dti_agenda SET tp_status= 'A', tp_movimento = 'E' 
-    WHERE cd_dti_agenda = ${app_lid} 
-      `);
-
-    await knex.raw(
-      `
-        DECLARE
-          P_RESULT VARCHAR2(30);
-        BEGIN
-        P_RESULT := tuotempo.fnc_dti_controla_agendamento;
-        END;
-        `,
-    );
-
-    const verifica_agenda = await knex.raw(`
-      SELECT *
-       FROM tuotempo.tbl_dti_agenda
-      WHERE cd_dti_agenda = ${result[0].CD_DTI_AGENDA}
-      and tp_status = 'T'
-      and tp_movimento = 'E'
-      `);
-
-
-    if (!verifica_agenda || verifica_agenda.length === 0) {
-      return {
-        result: 'ERRO',
-        debug_msg: 'Não foi possivel cancelar o horario!',
-      };
-    }
 
     const dados = {
       app_lid: app_lid,

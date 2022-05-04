@@ -39,10 +39,7 @@ export async function put_appointments(app_lid, status) {
     LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
     LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
-    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = (SELECT cd_depara_mv 
-                                                      FROM tuotempo.depara 
-                                                    WHERE cd_depara_integra = ${app_lid}
-                                                    and tp_depara = 'AGENDA')   
+    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = ${app_lid}   
     `);
 
     if (!result || result.length === 0) {
