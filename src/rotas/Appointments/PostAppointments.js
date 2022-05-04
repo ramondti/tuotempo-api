@@ -52,7 +52,7 @@ export async function post_appointments(
 
 var verifica_user
 
-if (user.user_lid === null && user.user_lid === "" ) {
+if (user.user_lid === null && user.user_lid === '' ) {
    verifica_user = 0;
 }
   else {
@@ -212,9 +212,11 @@ if (user.user_lid === null && user.user_lid === "" ) {
       const verifica_paci = await knex.raw(`
       SELECT *
        FROM dbamv.paciente
-      WHERE nr_cpf = '${user.id_number.number}'
+      WHERE nr_cpf = ${user.id_number.number}
       `);
 
+      console.log('Seq da paciente')
+      console.log (seq_paciente[0].SEQ_DTI)
 
       if (!verifica_paci || verifica_paci.length === 0) {
         return {
@@ -297,6 +299,7 @@ if (user.user_lid === null && user.user_lid === "" ) {
     }
 
 
+<<<<<<< HEAD
     const resultado = await knex.raw(`
     SELECT 
     IT_AGENDA_CENTRAL.CD_IT_AGENDA_CENTRAL                                                                AS availability_lid,
@@ -335,6 +338,9 @@ if (user.user_lid === null && user.user_lid === "" ) {
 
 
 
+=======
+    //test
+>>>>>>> 5d24368c5229cfad7270b56b08f07550b63e9e0e
     const dados = {
       app_lid: seq_agenda[0].SEQ_DTI_AGENDA,
       availability: {
@@ -350,19 +356,28 @@ if (user.user_lid === null && user.user_lid === "" ) {
       user: {
         user_lid: user_lid_existe,
         id_number: {
-          number: verifica_paci[0].NR_CPF,
-          type: 1,
+          number: user.id_number.number,
+          type: user.id_number.type,
         },
+<<<<<<< HEAD
         first_name: resultado[0].FIRST_NAME,
         second_name: resultado[0].SECOND_NAME,
+=======
+        first_name: verifica_paci[0].NM_PACIENTE,
+        second_name: verifica_paci[0].NM_PACIENTE,
+>>>>>>> 5d24368c5229cfad7270b56b08f07550b63e9e0e
         third_name: user.third_name,
         birthdate: resultado[0].BIRTHDATE,
         place_of_birth: user.place_of_birth,
         gender: resultado[0].GENDER,
         contact: {
+<<<<<<< HEAD
           email: resultado[0].EMAIL,
+=======
+          email: verifica_paci[0].EMAIL,
+>>>>>>> 5d24368c5229cfad7270b56b08f07550b63e9e0e
           landline: user.contact.landline,
-          mobile: user.contact.mobile,
+          mobile: verifica_paci[0].NR_FONE,
           work: user.contact.work,
         },
         privacy: {
@@ -377,6 +392,7 @@ if (user.user_lid === null && user.user_lid === "" ) {
           dossier: user.privacy.dossier,
         },
         address: {
+<<<<<<< HEAD
           street: resultado[0].STREET,
           street_number: resultado[0].STREET_NUMBER,
           zipcode:  resultado[0].ZIPCODE,
@@ -384,6 +400,15 @@ if (user.user_lid === null && user.user_lid === "" ) {
           province: null,
           region: null,
           country: null,
+=======
+          street: verifica_paci[0].DS_ENDERECO,
+          street_number: verifica_paci[0].NR_ENDERECO,
+          zipcode: verifica_paci[0].NR_CEP,
+          city: user.address.city,
+          province: user.address.province,
+          region: user.address.region,
+          country: user.address.country,
+>>>>>>> 5d24368c5229cfad7270b56b08f07550b63e9e0e
         },
       },
       notes: notes,
