@@ -297,18 +297,55 @@ if (user.user_lid === null && user.user_lid === "" ) {
     }
 
 
+    const resultado = await knex.raw(`
+    SELECT 
+    IT_AGENDA_CENTRAL.CD_IT_AGENDA_CENTRAL                                                                AS availability_lid,
+    To_Char(IT_AGENDA_CENTRAL.hr_agenda,'DD/MM/YY')                                                       AS data,
+    To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                                        AS start_time,
+    (to_char(it_agenda_central.hr_agenda + (agenda_central.qt_tempo_medio)/1440, 'hh24:mi'))              AS end_time,
+    agenda_central.cd_unidade_atendimento                                                                 AS location_LID,
+    prestador.cd_prestador                                                                                AS RESOURCE_LID,
+    IT_AGENDA_CENTRAL.cd_item_agendamento                                                                 AS activity_lid,
+    (CASE WHEN (IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla) = '-' THEN
+    NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
+    PACIENTE.cd_paciente                                                                                  AS user_lid,
+    paciente.nr_cpf                                                                                       AS ID_NUMBER,
+    1                                                                                                     AS ID_TYPE,
+    NVL(SUBSTR(PACIENTE.NM_PACIENTE,0, 
+    INSTR(PACIENTE.NM_PACIENTE, ' ')-1), PACIENTE.NM_PACIENTE)                                            AS first_name,
+    NVL(SUBSTR(PACIENTE.NM_PACIENTE,INSTR(PACIENTE.NM_PACIENTE, ' ') + 1, 
+    INSTR(PACIENTE.NM_PACIENTE, ' ')+20000), PACIENTE.NM_PACIENTE)                                        AS second_name,
+    to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
+    PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
+    PACIENTE.tp_sexo                                                                                      AS GENDER,
+    paciente.email                                                                                        AS email,
+    paciente.nr_celular                                                                                   AS mobile,
+    paciente.nr_ddd_fone,
+    paciente.nr_ddd_celular,
+    paciente.nr_endereco AS street_number,
+    paciente.ds_endereco AS street,
+    paciente.nr_cep AS zipcode                                          
+    FROM DBAMV.AGENDA_CENTRAL
+    LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
+    LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
+    LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
+    LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
+    WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = '${availability.availability_lid}'
+    `);
+
+
 
     const dados = {
       app_lid: seq_agenda[0].SEQ_DTI_AGENDA,
       availability: {
         availability_lid: availability.availability_lid,
-        date: availability.date,
-        start_time: availability.start_time,
-        end_time: availability.end_time,
-        location_lid: availability.location_lid,
-        resource_lid: availability.resource_lid,
+        date: resultado[0].DATA,
+        start_time: resultado[0].START_TIME,
+        end_time: resultado[0].END_TIME,
+        location_lid: resultado[0].LOCATION_LID,
+        resource_lid: resultado[0].RESOURCE_LID,
         activity_lid: availability.activity_lid,
-        insurance_lid: availability.insurance_lid,
+        insurance_lid: resultado[0].INSURANCE_LID,
       },
       user: {
         user_lid: user_lid_existe,
@@ -316,14 +353,14 @@ if (user.user_lid === null && user.user_lid === "" ) {
           number: verifica_paci[0].NR_CPF,
           type: 1,
         },
-        first_name: verifica_paci[0].,
-        second_name: verifica_paci[0].,
+        first_name: resultado[0].FIRST_NAME,
+        second_name: resultado[0].SECOND_NAME,
         third_name: user.third_name,
-        birthdate: user.birthdate,
+        birthdate: resultado[0].BIRTHDATE,
         place_of_birth: user.place_of_birth,
-        gender: user.gender,
+        gender: resultado[0].GENDER,
         contact: {
-          email: verifica_paci[0].,
+          email: resultado[0].EMAIL,
           landline: user.contact.landline,
           mobile: user.contact.mobile,
           work: user.contact.work,
@@ -340,13 +377,13 @@ if (user.user_lid === null && user.user_lid === "" ) {
           dossier: user.privacy.dossier,
         },
         address: {
-          street: user.address.street,
-          street_number: user.address.street_number,
-          zipcode: user.address.zipcode,
-          city: user.address.city,
-          province: user.address.province,
-          region: user.address.region,
-          country: user.address.country,
+          street: resultado[0].STREET,
+          street_number: resultado[0].STREET_NUMBER,
+          zipcode:  resultado[0].ZIPCODE,
+          city: null,
+          province: null,
+          region: null,
+          country: null,
         },
       },
       notes: notes,
