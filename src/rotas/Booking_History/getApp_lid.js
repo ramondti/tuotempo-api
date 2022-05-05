@@ -26,6 +26,7 @@ export async function get_app_lid(app_lid) {
     NULL ELSE IT_AGENDA_CENTRAL.cd_convenio || '-' || IT_AGENDA_CENTRAL.cd_con_pla       END )            AS insurance_lid,
     NULL                                                                                                  AS PRICE,
     PACIENTE.cd_paciente                                                                                  AS user_lid,
+    To_Char(agenda_central.dt_agenda ,'dd/mm/yyyy')                                                       AS DATA,  
     paciente.nr_cpf                                                                                       AS ID_NUMBER,
     1                                                                                                     AS ID_TYPE,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,0, 

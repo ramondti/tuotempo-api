@@ -118,7 +118,7 @@ export async function get_resources_location_lid(location_lid) {
         second_name: element.SEGUNDO_NM,
         id_number: {
           number: element.NR_CPF_CGC,
-          type: element.TYPE,
+          type: 1,
         },
         registration_code: {
           number: element.DS_CODIGO_CONSELHO,

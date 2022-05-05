@@ -37,6 +37,7 @@ export async function get_user_lid(user_lid,start_date,end_date) {
     ' '                                                                                                   AS third_name,
     PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
     PACIENTE.tp_sexo                                                                                      AS GENDER,
+    To_Char(agenda_central.dt_agenda ,'dd/mm/yyyy')                                                       AS DATA,  
     paciente.email                                                                                        AS email,
     paciente.nr_celular                                                                                   AS mobile
     FROM DBAMV.AGENDA_CENTRAL

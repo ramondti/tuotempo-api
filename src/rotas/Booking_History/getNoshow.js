@@ -38,6 +38,7 @@ export async function get_noshow(start_date, end_date) {
      to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
      PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
      PACIENTE.tp_sexo                                                                                      AS GENDER,
+     To_Char(agenda_central.dt_agenda ,'dd/mm/yyyy')                                                       AS DATA, 
      paciente.email                                                                                        AS email,
      paciente.nr_celular                                                                                   AS mobile
      FROM DBAMV.AGENDA_CENTRAL
@@ -80,6 +81,7 @@ export async function get_noshow(start_date, end_date) {
      to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
      PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
      PACIENTE.tp_sexo                                                                                      AS GENDER,
+     To_Char(agenda_central.dt_agenda ,'dd/mm/yyyy')                                                       AS DATA,  
      paciente.email                                                                                        AS email,
      paciente.nr_celular                                                                                   AS mobile
      FROM DBAMV.AGENDA_CENTRAL

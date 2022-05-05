@@ -34,7 +34,8 @@ To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                  
     INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')-1), IT_AGENDA_CENTRAL.NM_PACIENTE)                          AS first_name,
     NVL(SUBSTR(IT_AGENDA_CENTRAL.NM_PACIENTE,INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ') + 1, 
     INSTR(IT_AGENDA_CENTRAL.NM_PACIENTE, ' ')+20000), IT_AGENDA_CENTRAL.NM_PACIENTE)                      AS second_name,
-    to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,    
+    to_char(paciente.dt_nascimento,'dd/mm/yyyy')                                                          AS birthdate,
+    To_Char(agenda_central.dt_agenda ,'dd/mm/yyyy')                                                       AS DATA,      
     paciente.email                                                                                        AS email,
     paciente.nr_celular                                                                                   AS mobile
     FROM DBAMV.AGENDA_CENTRAL
