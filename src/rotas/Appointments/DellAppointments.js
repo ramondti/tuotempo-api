@@ -86,7 +86,7 @@ export async function del_appointments(app_lid) {
 
 
     const dados = {
-      "app_lid": app_li,
+      "app_lid": app_lid,
       created: result[0].DT_GERADO,
       cancelled: result[0].CANCELLED,
       modified: null,
