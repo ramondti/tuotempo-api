@@ -81,12 +81,12 @@ export async function del_appointments(app_lid) {
   LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
   LEFT JOIN DBAMV.PACIENTE ON PACIENTE.CD_PACIENTE = IT_AGENDA_CENTRAL.CD_PACIENTE
   LEFT JOIN DBAMV.CONVENIO ON CONVENIO.CD_CONVENIO = IT_AGENDA_CENTRAL.CD_CONVENIO
-  WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = '${availability.availability_lid}'
+  WHERE IT_AGENDA_CENTRAL.cd_it_agenda_central = '${app_lid}'
   `);
 
 
     const dados = {
-      app_lid: app_lid,
+      "app_lid": app_li,
       created: result[0].DT_GERADO,
       cancelled: result[0].CANCELLED,
       modified: null,
