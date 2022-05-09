@@ -140,8 +140,8 @@ app.get("/appointments/users/:user_lid",async (req, res) => {
 
 
 
-app.listen(8283, (err, data) => {
-  console.log("Ouvindo na porta 8283");
+app.listen(8080, (err, data) => {
+  console.log("Ouvindo na porta 8080");
 });
 
 export default app;
