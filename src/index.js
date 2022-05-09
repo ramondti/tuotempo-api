@@ -130,9 +130,11 @@ app.get("/appointments/:app_lid",async (req, res) => {
 
 
 app.get("/appointments/users/:user_lid",async (req, res) => {
+  console.log('/appointments/users/:user_lid')
   const {start_date,end_date} = req.query;
   const json = await get_user_lid(req.params.user_lid,start_date,end_date);
   return res.json(json);
+
 });
 
 
