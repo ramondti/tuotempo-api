@@ -38,7 +38,7 @@ export async function get_app_lid(app_lid) {
     PACIENTE.CD_CIDADE                                                                                    AS place_of_birth,
     PACIENTE.tp_sexo                                                                                      AS GENDER,
     paciente.email                                                                                        AS email,
-    paciente.nr_celular                                                                                   AS mobile
+    '+'||IT_AGENDA_CENTRAL.nr_ddd_celular||IT_AGENDA_CENTRAL.nr_celular                                   AS mobile
     FROM DBAMV.AGENDA_CENTRAL
     LEFT JOIN DBAMV.IT_AGENDA_CENTRAL ON IT_AGENDA_CENTRAL.CD_AGENDA_CENTRAL = AGENDA_CENTRAL.CD_AGENDA_CENTRAL
     LEFT JOIN DBAMV.PRESTADOR ON PRESTADOR.CD_PRESTADOR = AGENDA_CENTRAL.CD_PRESTADOR
