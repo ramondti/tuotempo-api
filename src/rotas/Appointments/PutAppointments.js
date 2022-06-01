@@ -1,6 +1,6 @@
 import knex from '../../database/db';
 
-export async function put_appointments(app_lid, status, cancellation_reason ) {
+export async function put_appointments(app_lid, status ) {
   try {
 
     const result = await knex.raw(`
@@ -48,8 +48,7 @@ export async function put_appointments(app_lid, status, cancellation_reason ) {
       };
     }
 
-    console.log('cancellation_reason')
-    console.log(cancellation_reason)
+  
 
   await knex.raw(`
   UPDATE DBAMV.IT_AGENDA_CENTRAL SET ds_observacao = '${status}' 
@@ -63,7 +62,7 @@ export async function put_appointments(app_lid, status, cancellation_reason ) {
       dados.push({
         "app_lid": app_lid,
         "created": null,
-        "cancelled": cancellation_reason,
+        "cancelled": null,
         "modified": null,
         "status": status,
         "checkedin": null,

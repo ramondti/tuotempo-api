@@ -1,6 +1,6 @@
 import knex from '../../database/db';
 
-export async function del_appointments(app_lid) {
+export async function del_appointments(app_lid,cancellation_reason) {
   try {
 
     const verifica_horario = await knex.raw(`
@@ -85,10 +85,14 @@ export async function del_appointments(app_lid) {
   `);
 
 
+  console.log('cancellation_reason')
+  console.log(cancellation_reason)
+
+
     const dados = {
       "app_lid": app_lid,
       created: result[0].DT_GERADO,
-      cancelled: result[0].CANCELLED,
+      cancelled: cancellation_reason,
       modified: null,
       status: 'Cancelled',
       checkedin: null,
