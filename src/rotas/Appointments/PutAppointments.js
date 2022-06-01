@@ -63,7 +63,7 @@ export async function put_appointments(app_lid, status, cancellation_reason ) {
       dados.push({
         "app_lid": app_lid,
         "created": null,
-        "cancelled": null,
+        "cancelled": cancellation_reason,
         "modified": null,
         "status": status,
         "checkedin": null,
