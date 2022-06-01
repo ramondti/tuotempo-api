@@ -141,8 +141,8 @@ app.get("/appointments/users/:user_lid",async (req, res) => {
 
 
 
-app.listen(8080, (err, data) => {
-  console.log("Ouvindo na porta 8080");
+app.listen(3000, (err, data) => {
+  console.log("Ouvindo na porta 3000");
 });
 
 export default app;
