@@ -97,7 +97,8 @@ app.post("/appointments",async (req, res) => {
 
 
 app.delete("/appointments/:app_lid",async (req, res) => {
-  const json = await del_appointments(req.params.app_lid);
+  const { cancellation_reason } = req.body
+  const json = await del_appointments(req.params.app_lid,cancellation_reason);
   return res.json(json);
 });
 
@@ -140,8 +141,8 @@ app.get("/appointments/users/:user_lid",async (req, res) => {
 
 
 
-app.listen(8080, (err, data) => {
-  console.log("Ouvindo na porta 8080");
+app.listen(8383, (err, data) => {
+  console.log("Ouvindo na porta 8383");
 });
 
 export default app;
