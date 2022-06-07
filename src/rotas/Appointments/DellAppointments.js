@@ -22,7 +22,7 @@ export async function del_appointments(app_lid,cancellation_reason) {
       DECLARE 
       P_OUT NUMBER ;
       P_IN  NUMBER;
-      BEGIN prc_dti_exclui_agendamento(P_OUT,${app_lid}) ;
+      BEGIN prc_dti_exclui_agendamento(P_OUT,${app_lid},${cancellation_reason}) ;
       END; 
       
         `,
