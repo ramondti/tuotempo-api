@@ -52,6 +52,7 @@ export async function post_appointments(
 
 var verifica_user
 
+console.log('user.user_lid')
 console.log(user.user_lid)
 
 if (user.user_lid === null && user.user_lid === '' && user.user_lid === undefined ) {
