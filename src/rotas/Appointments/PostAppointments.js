@@ -59,6 +59,7 @@ if (!user.user_lid) {
    verifica_user = 0;
 }
   else {
+    console.log('Entrou no else, if userlid');
    verifica_user = await knex.raw(`
         SELECT *
           FROM dbamv.paciente
@@ -67,11 +68,15 @@ if (!user.user_lid) {
   }
 
   
-  console.log('Antes dos insert')
+  console.log('Antes dos insert');
+
+
   var user_lid_existe
   var seq_agenda 
 
     if (!verifica_user || verifica_user.length !== 0) {
+
+      console.log('Entrou no verificar user !== 0');
 
       user_lid_existe = verifica_user[0].CD_PACIENTE;
 
@@ -144,6 +149,7 @@ if (!user.user_lid) {
         };
       }
     } else {
+      console.log('Entrou no else do user !== 0')
 
       const seq_paciente = await knex.raw(
         `select tuotempo.seq_dti_paciente.nextval seq_dti from dual`,
