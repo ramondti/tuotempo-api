@@ -76,7 +76,7 @@ if (!user.user_lid) {
   var user_lid_existe
   var seq_agenda 
 
-    if (!verifica_user || verifica_user.length !== true) {
+    if (verifica_user !== 0) {
       console.log(!verifica_user || verifica_user.length)
 
       console.log('Entrou no verificar user !== 0');
