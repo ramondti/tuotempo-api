@@ -69,12 +69,15 @@ if (!user.user_lid) {
 
   
   console.log('Antes dos insert');
+  console.log(verifica_user);
+
 
 
   var user_lid_existe
   var seq_agenda 
 
     if (!verifica_user || verifica_user.length !== 0) {
+      console.log(!verifica_user || verifica_user.length)
 
       console.log('Entrou no verificar user !== 0');
 
