@@ -51,7 +51,6 @@ export async function get_user_lid(user_lid,start_date,end_date) {
     AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
     `);
 
-    console.log(result)
 
     if (!result || result.length === 0) {
       return {

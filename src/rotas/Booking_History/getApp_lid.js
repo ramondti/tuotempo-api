@@ -48,9 +48,6 @@ export async function get_app_lid(app_lid) {
     AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
     `);
 
-    console.log(result)
-
-
     if (!result || result.length === 0) {
       return {
         result: 'OK'

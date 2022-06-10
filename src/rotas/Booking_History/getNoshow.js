@@ -146,7 +146,6 @@ export async function get_noshow(start_date, end_date) {
       });
     });
 
-    console.log(dados);
 
     return { result: 'OK', return: dados };
   } catch (error) {

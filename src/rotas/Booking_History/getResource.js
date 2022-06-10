@@ -48,10 +48,6 @@ To_Char(IT_AGENDA_CENTRAL.hr_agenda,'hh24:mi')                                  
     AND AGENDA_CENTRAL.DT_AGENDA BETWEEN To_Date('${start_date}','DD/MM/YYYY') AND To_Date('${end_date}','DD/MM/YYYY')
     AND IT_AGENDA_CENTRAL.NM_PACIENTE is not null
     `);
-    console.log('resource_lid');
-    console.log(resource_lid);
-    console.log(start_date);
-    console.log(end_date);
     
 
     if (!result || result.length === 0) {
