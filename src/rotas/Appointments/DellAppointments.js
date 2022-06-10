@@ -7,7 +7,7 @@ export async function del_appointments(app_lid,cancellation_reason) {
     SELECT * 
       FROM IT_AGENDA_CENTRAL 
     WHERE CD_IT_AGENDA_CENTRAL = ${app_lid}
-    AND it_agenda_central.nm_paciente IS NOT NULL or it_agenda_central.cd_paciente is not null
+    AND it_agenda_central.nm_paciente IS NOT NULL
     `);
 
     if (!verifica_horario || verifica_horario.length === 0) {
