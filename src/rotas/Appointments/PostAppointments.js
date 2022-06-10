@@ -13,11 +13,15 @@ export async function post_appointments(
   SELECT * 
     FROM IT_AGENDA_CENTRAL 
   WHERE CD_IT_AGENDA_CENTRAL = ${availability.availability_lid}
-  AND it_agenda_central.cd_paciente is NULL
-  AND it_agenda_central.nm_paciente is NULL
+  AND it_agenda_central.cd_paciente is not NULL
+  AND it_agenda_central.nm_paciente is not NULL
     `);
 
-    if (!verifica_horario || verifica_horario.length === 0) {
+    console.log('verifica_horario')
+
+    if (!verifica_horario) {
+      console.log('verifica_horario')
+      console.log(verifica_horario)
       return {
         result: 'OK',
         debug_msg: 'Horario não esta disponivel!',
