@@ -13,8 +13,8 @@ export async function post_appointments(
   SELECT * 
     FROM IT_AGENDA_CENTRAL 
   WHERE CD_IT_AGENDA_CENTRAL = ${availability.availability_lid}
-  AND it_agenda_central.cd_paciente IS not NULL
-  AND it_agenda_central.nm_paciente IS not NULL
+  AND it_agenda_central.cd_paciente is NULL
+  AND it_agenda_central.nm_paciente is NULL
     `);
 
     if (!verifica_horario || verifica_horario.length === 0) {
